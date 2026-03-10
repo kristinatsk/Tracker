@@ -2,6 +2,10 @@ import UIKit
 
 class TrackersViewController: UIViewController {
     
+    private var categories: [TrackerCategory] = []
+    
+    private var completedTrackers: [TrackerRecord] = []
+    
     private lazy var placeholderImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(resource: .starPlaceholder)
