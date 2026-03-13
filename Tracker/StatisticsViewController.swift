@@ -1,5 +1,5 @@
 import UIKit
 
-class StatisticsViewController: UIViewController {
+final class StatisticsViewController: UIViewController {
     
 }

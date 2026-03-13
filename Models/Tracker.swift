@@ -1,7 +1,13 @@
 import UIKit
 
-enum WeekDay {
-    case monday, teusday, wednsday, thursday, friday, saturday, sunday
+enum WeekDay: Int {
+    case sunday = 1
+    case monday
+    case tuesday
+    case wednesday
+    case thursday
+    case friday
+    case saturday
 }
 
 struct Tracker {
