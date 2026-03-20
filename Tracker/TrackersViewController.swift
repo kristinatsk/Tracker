@@ -2,9 +2,13 @@ import UIKit
 
 final class TrackersViewController: UIViewController {
     
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: LeftAlignedCollectionViewFlowLayout())
-    
     private var visibleCategories: [TrackerCategory] = []
+    
+    private var completedTrackers: [TrackerRecord] = []
+    
+    private let datePicker = UIDatePicker()
+    
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: LeftAlignedCollectionViewFlowLayout())
     
     private var categories: [TrackerCategory] = [
         TrackerCategory(
@@ -25,7 +29,6 @@ final class TrackersViewController: UIViewController {
         }
     }
     
-    private var completedTrackers: [TrackerRecord] = []
     
     private lazy var placeholderImageView: UIImageView = {
         let imageView = UIImageView()
@@ -44,7 +47,17 @@ final class TrackersViewController: UIViewController {
         return label
     }()
     
-    private let datePicker = UIDatePicker()
+    private lazy var filterButton: UIButton = {
+       let button = UIButton()
+        button.setTitle("Фильтры", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 16
+        button.backgroundColor = .systemBlue
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     
     override func viewDidLoad() {
         
@@ -74,6 +87,8 @@ final class TrackersViewController: UIViewController {
         searchController.searchBar.placeholder = "Поиск"
         navigationItem.searchController = searchController
         
+        filterButton.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
+        
         collectionView.register(TrackerCollectionViewCell.self, forCellWithReuseIdentifier: "trackerCollectionViewCell")
         collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.dataSource = self
@@ -83,6 +98,7 @@ final class TrackersViewController: UIViewController {
         view.addSubview(collectionView)
         view.addSubview(placeholderImageView)
         view.addSubview(placeholderLabel)
+        view.addSubview(filterButton)
         
         NSLayoutConstraint.activate([
             
@@ -95,13 +111,22 @@ final class TrackersViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            
+            filterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            filterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            filterButton.heightAnchor.constraint(equalToConstant: 50),
+            filterButton.widthAnchor.constraint(equalToConstant: 114)
         ])
         
+        updatePlaceHolderVisibility()
+        datePickerValueChanged(datePicker)
     }
+    
     @objc private func addTrackerTapped() {
-        let newTracker = TrackerTypeSelectionViewController()
-        present(newTracker, animated: true)
+        let typeSelectionVC = TrackerTypeSelectionViewController()
+        typeSelectionVC.delegate = self
+        present(typeSelectionVC, animated: true)
     }
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -124,6 +149,10 @@ final class TrackersViewController: UIViewController {
         }
         collectionView.reloadData()
         updatePlaceHolderVisibility()
+        
+    }
+    
+    @objc private func filterButtonTapped() {
         
     }
     
@@ -203,5 +232,22 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
             completedTrackers.append(TrackerRecord(id: id, date: datePicker.date))
         }
         collectionView.reloadData()
+    }
+}
+
+extension TrackersViewController: TrackerCreationDelegate {
+    func createTracker(trackerName: String, schedule: [Int]) {
+        let allWeekDays = [WeekDay.sunday, WeekDay.monday, WeekDay.tuesday, WeekDay.wednesday, WeekDay.thursday, WeekDay.friday,WeekDay.saturday]
+        let realSchedule = schedule.map { allWeekDays[$0] }
+        let tracker = Tracker(
+            id: UUID(),
+            name: trackerName,
+            color: .systemBlue,
+            emoji: "🍎",
+            schedule: realSchedule)
+        visibleCategories.append(TrackerCategory(title: "Домашний уют", trackers: [tracker]))
+        collectionView.reloadData()
+        self.dismiss(animated: true)
+       updatePlaceHolderVisibility()
     }
 }

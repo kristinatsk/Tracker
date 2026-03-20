@@ -51,7 +51,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -82,7 +82,8 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
             addCardButton.heightAnchor.constraint(equalToConstant: 34),
             
             daysLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            daysLabel.centerYAnchor.constraint(equalTo: addCardButton.centerYAnchor)
+            daysLabel.centerYAnchor.constraint(equalTo: addCardButton.centerYAnchor),
+        
         ])
         
     }
