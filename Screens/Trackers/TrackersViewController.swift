@@ -267,6 +267,7 @@ extension TrackersViewController: TrackerCreationDelegate {
         
         
         updateVisibleCategories()
+        updatePlaceHolderVisibility()
         collectionView.reloadData()
         self.dismiss(animated: true)
     }

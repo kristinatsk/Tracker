@@ -15,7 +15,6 @@
 		C18A1F452F6F910600F1591B /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18A1F382F6F910600F1591B /* StatisticsViewController.swift */; };
 		C18A1F482F6F910600F1591B /* TrackerCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18A1F3B2F6F910600F1591B /* TrackerCreationViewController.swift */; };
 		C18A1F4A2F6F910600F1591B /* TrackerTypeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18A1F3D2F6F910600F1591B /* TrackerTypeSelectionViewController.swift */; };
-		C18A1FC02F72FAAF00F1591B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C18A1F332F6F910600F1591B /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -188,7 +187,6 @@
 			files = (
 				C18A1F3E2F6F910600F1591B /* Assets.xcassets in Resources */,
 				C18A1F402F6F910600F1591B /* LaunchScreen.storyboard in Resources */,
-				C18A1FC02F72FAAF00F1591B /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,7 +217,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Tracker/Info.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -254,7 +252,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Tracker/Info.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
