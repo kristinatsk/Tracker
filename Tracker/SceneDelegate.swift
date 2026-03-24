@@ -19,6 +19,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let tabBarController = UITabBarController()
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .systemBackground
+        appearance.shadowColor = .black
+        tabBarController.tabBar.standardAppearance = appearance
+        tabBarController.tabBar.scrollEdgeAppearance = appearance
+        
+        let separatorLine = UIView()
+        separatorLine.backgroundColor = UIColor.lightGray
+        separatorLine.translatesAutoresizingMaskIntoConstraints = false
+        tabBarController.tabBar.addSubview(separatorLine)
+
+        NSLayoutConstraint.activate([
+            separatorLine.topAnchor.constraint(equalTo: tabBarController.tabBar.topAnchor),
+            separatorLine.leadingAnchor.constraint(equalTo: tabBarController.tabBar.leadingAnchor),
+            separatorLine.trailingAnchor.constraint(equalTo: tabBarController.tabBar.trailingAnchor),
+            separatorLine.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        
         let trackersViewController = TrackersViewController()
         let trackersViewNavigationController = UINavigationController(rootViewController: trackersViewController)
         

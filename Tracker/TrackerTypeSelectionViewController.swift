@@ -45,7 +45,7 @@ final class TrackerTypeSelectionViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             typeSelectionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            typeSelectionLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 78),
+            typeSelectionLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 27),
             
             typeSelectionHabitButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             typeSelectionHabitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),

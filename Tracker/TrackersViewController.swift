@@ -6,6 +6,8 @@ final class TrackersViewController: UIViewController {
     
     private var completedTrackers: [TrackerRecord] = []
     
+    private var currentDate = Date()
+    
     private let datePicker = UIDatePicker()
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: LeftAlignedCollectionViewFlowLayout())
@@ -130,9 +132,20 @@ final class TrackersViewController: UIViewController {
     }
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
-        let selectedDate = sender.date
+        self.currentDate = sender.date
+        updateVisibleCategories()
+        collectionView.reloadData()
+        updatePlaceHolderVisibility()
+        
+    }
+    
+    @objc private func filterButtonTapped() {
+        
+    }
+    
+    private func updateVisibleCategories() {
         let calendar = Calendar.current
-        let filterWeekday = calendar.component(.weekday, from: selectedDate)
+        let filterWeekday = calendar.component(.weekday, from: self.currentDate)
         
         guard let selectedWeekDay = WeekDay(rawValue: filterWeekday) else { return }
         
@@ -147,18 +160,12 @@ final class TrackersViewController: UIViewController {
                 visibleCategories.append(newCategory)
             }
         }
-        collectionView.reloadData()
-        updatePlaceHolderVisibility()
-        
-    }
-    
-    @objc private func filterButtonTapped() {
-        
     }
     
     private func updatePlaceHolderVisibility() {
         placeholderImageView.isHidden = !visibleCategories.isEmpty
         placeholderLabel.isHidden = !visibleCategories.isEmpty
+        filterButton.isHidden = visibleCategories.isEmpty
     }
 }
 
@@ -177,7 +184,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         
         let completedDays = completedTrackers.filter { $0.id == tracker.id }.count
-        let isCompletedToday = completedTrackers.contains(where: {$0.id == tracker.id && Calendar.current.isDate($0.date, inSameDayAs: datePicker.date) })
+        let isCompletedToday = completedTrackers.contains(where: {$0.id == tracker.id && Calendar.current.isDate($0.date, inSameDayAs: currentDate) })
         
         cell.configure(tracker: tracker, isCompletedToday: isCompletedToday, completedDays: completedDays)
         
@@ -225,11 +232,11 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController: TrackerCollectionViewCellDelegate {
     func completeTracker(id: UUID) {
-        guard datePicker.date <= Date() else { return }
-        if let index = completedTrackers.firstIndex(where: { $0.id == id && Calendar.current.isDate($0.date, inSameDayAs: datePicker.date) }) {
+        guard currentDate <= Date() else { return }
+        if let index = completedTrackers.firstIndex(where: { $0.id == id && Calendar.current.isDate($0.date, inSameDayAs: currentDate) }) {
             completedTrackers.remove(at: index)
         } else {
-            completedTrackers.append(TrackerRecord(id: id, date: datePicker.date))
+            completedTrackers.append(TrackerRecord(id: id, date: currentDate))
         }
         collectionView.reloadData()
     }
@@ -239,15 +246,28 @@ extension TrackersViewController: TrackerCreationDelegate {
     func createTracker(trackerName: String, schedule: [Int]) {
         let allWeekDays = [WeekDay.sunday, WeekDay.monday, WeekDay.tuesday, WeekDay.wednesday, WeekDay.thursday, WeekDay.friday,WeekDay.saturday]
         let realSchedule = schedule.map { allWeekDays[$0] }
+        
         let tracker = Tracker(
             id: UUID(),
             name: trackerName,
             color: .systemBlue,
             emoji: "🍎",
             schedule: realSchedule)
-        visibleCategories.append(TrackerCategory(title: "Домашний уют", trackers: [tracker]))
+        
+        let categoryTitle = "Домашний уют"
+        if let categoryIndex = categories.firstIndex(where: { $0.title == categoryTitle }) {
+            let currentTrackers = categories[categoryIndex].trackers
+            let updatedTrackers = currentTrackers + [tracker]
+            let newCategory = TrackerCategory(title: categoryTitle, trackers: updatedTrackers)
+            categories[categoryIndex] = newCategory
+        } else {
+            let newCategory = TrackerCategory(title: categoryTitle, trackers: [tracker])
+            categories.append(newCategory)
+        }
+        
+        
+        updateVisibleCategories()
         collectionView.reloadData()
         self.dismiss(animated: true)
-       updatePlaceHolderVisibility()
     }
 }

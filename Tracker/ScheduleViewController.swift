@@ -9,9 +9,15 @@ final class ScheduleViewController: UIViewController {
     weak var delegate: ScheduleViewControllerDelegate?
     
     private lazy var scheduleTableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.tableHeaderView = UIView()
+        tableView.tableFooterView = UIView()
         tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = UIColor(resource: .tableViewBackground)
+        tableView.rowHeight = 75
+        tableView.layer.cornerRadius = 16
+        tableView.layer.masksToBounds = true
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
         return tableView
@@ -68,8 +74,10 @@ extension ScheduleViewController: UITableViewDataSource {
         cell.textLabel?.text = WeekDay.allCases[indexPath.row].weekName
         let daySwitch = UISwitch()
         daySwitch.tag = indexPath.row
+        daySwitch.onTintColor = .systemBlue
         daySwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
         cell.accessoryView = daySwitch
+        cell.backgroundColor = UIColor(resource: .tableViewBackground)
         return cell
     }
     

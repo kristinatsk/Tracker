@@ -33,9 +33,14 @@ final class TrackerCreationViewController: UIViewController {
     
     private lazy var creationTableView: UITableView = {
         let tableView = UITableView()
+        tableView.tableHeaderView = UIView()
+        tableView.tableFooterView = UIView()
         tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = UIColor(resource: .tableViewBackground)
+        tableView.layer.cornerRadius = 16
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.rowHeight = 75
         return tableView
     }()
     
@@ -72,6 +77,16 @@ final class TrackerCreationViewController: UIViewController {
         return stackView
     }()
     
+    private lazy var warningLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Ограничение 38 символов"
+        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        label.textColor = UIColor(resource: .warningLabel)
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -89,6 +104,7 @@ final class TrackerCreationViewController: UIViewController {
         view.addSubview(creationTableView)
         view.addSubview(trackerNameTextField)
         view.addSubview(buttonsStackView)
+        view.addSubview(warningLabel)
         
         NSLayoutConstraint.activate([
             trackerNameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
@@ -96,7 +112,10 @@ final class TrackerCreationViewController: UIViewController {
             trackerNameTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             trackerNameTextField.heightAnchor.constraint(equalToConstant: 75),
             
-            creationTableView.topAnchor.constraint(equalTo: trackerNameTextField.bottomAnchor, constant: 24),
+            warningLabel.topAnchor.constraint(equalTo: trackerNameTextField.bottomAnchor, constant: 8),
+            warningLabel.centerXAnchor.constraint(equalTo: trackerNameTextField.centerXAnchor),
+            
+            creationTableView.topAnchor.constraint(equalTo: trackerNameTextField.bottomAnchor, constant: 62),
             creationTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             creationTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             self.isHabit ? creationTableView.heightAnchor.constraint(equalToConstant: 150) : creationTableView.heightAnchor.constraint(equalToConstant: 75),
@@ -150,12 +169,22 @@ extension TrackerCreationViewController: UITableViewDataSource {
             }
             scheduleCell.detailTextLabel?.text = resultString
             scheduleCell.accessoryType = .disclosureIndicator
+            scheduleCell.layer.masksToBounds = true
+            scheduleCell.layer.cornerRadius = 16
+            scheduleCell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            scheduleCell.backgroundColor = .secondarySystemBackground
+            
             return scheduleCell
         } else if indexPath.row == 0 {
             var categoryCell = UITableViewCell(style: .subtitle, reuseIdentifier: "Категория")
             categoryCell.textLabel?.text = "Категория"
             categoryCell.detailTextLabel?.text = "Важное"
             categoryCell.accessoryType = .disclosureIndicator
+            categoryCell.layer.masksToBounds = true
+            categoryCell.layer.cornerRadius = 16
+            categoryCell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            categoryCell.backgroundColor = .secondarySystemBackground
+            
             return categoryCell
         }
         
@@ -168,8 +197,9 @@ extension TrackerCreationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let scheduleVC = ScheduleViewController()
+        let scheduleNavController = UINavigationController(rootViewController: scheduleVC)
         scheduleVC.delegate = self
-        indexPath.row == 0 ? print("Переход к Категориям") : present(scheduleVC, animated: true, completion: nil)
+        indexPath.row == 0 ? print("Переход к Категориям") : present(scheduleNavController, animated: true, completion: nil)
     }
 }
 
@@ -177,6 +207,17 @@ extension TrackerCreationViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
+        let isWithinLimit = updatedText.count <= 38
+        warningLabel.isHidden = isWithinLimit
+        
+        return isWithinLimit
     }
 }
 
