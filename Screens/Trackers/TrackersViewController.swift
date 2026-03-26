@@ -54,7 +54,7 @@ final class TrackersViewController: UIViewController {
         button.setTitle("Фильтры", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 16
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = UIColor(resource: .filterButton)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -116,7 +116,7 @@ final class TrackersViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             
             filterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            filterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -68),
+            filterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             filterButton.heightAnchor.constraint(equalToConstant: 50),
             filterButton.widthAnchor.constraint(equalToConstant: 114)
         ])
