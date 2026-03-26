@@ -49,7 +49,7 @@ final class ScheduleViewController: UIViewController {
             scheduleTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             scheduleTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             scheduleTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            scheduleTableView.bottomAnchor.constraint(equalTo: scheduleDoneButton.topAnchor, constant: -47),
+            scheduleTableView.heightAnchor.constraint(equalToConstant: 525),
             
             scheduleDoneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             scheduleDoneButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
@@ -78,6 +78,11 @@ extension ScheduleViewController: UITableViewDataSource {
         daySwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
         cell.accessoryView = daySwitch
         cell.backgroundColor = UIColor(resource: .tableViewBackground)
+        if indexPath.row == WeekDay.allCases.count - 1 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 400)
+        } else {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 16)
+        }
         return cell
     }
     

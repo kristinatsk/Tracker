@@ -15,6 +15,7 @@
 		C18A1F452F6F910600F1591B /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18A1F382F6F910600F1591B /* StatisticsViewController.swift */; };
 		C18A1F482F6F910600F1591B /* TrackerCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18A1F3B2F6F910600F1591B /* TrackerCreationViewController.swift */; };
 		C18A1F4A2F6F910600F1591B /* TrackerTypeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18A1F3D2F6F910600F1591B /* TrackerTypeSelectionViewController.swift */; };
+		C18A1FD52F73853800F1591B /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18A1FD42F73852600F1591B /* CustomTabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		C18A1F382F6F910600F1591B /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		C18A1F3B2F6F910600F1591B /* TrackerCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCreationViewController.swift; sourceTree = "<group>"; };
 		C18A1F3D2F6F910600F1591B /* TrackerTypeSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTypeSelectionViewController.swift; sourceTree = "<group>"; };
+		C18A1FD42F73852600F1591B /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -85,6 +87,7 @@
 		C18A1FBF2F72FA9D00F1591B /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				C18A1FD32F73851A00F1591B /* Navigation */,
 				C10602832F5D67BD00AD4C5E /* Trackers */,
 				C18A1FC22F72FAEB00F1591B /* TrackerСreation */,
 				C18A1FC32F72FB2500F1591B /* Statistics */,
@@ -118,6 +121,14 @@
 				C18A1F382F6F910600F1591B /* StatisticsViewController.swift */,
 			);
 			path = Statistics;
+			sourceTree = "<group>";
+		};
+		C18A1FD32F73851A00F1591B /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				C18A1FD42F73852600F1591B /* CustomTabBarController.swift */,
+			);
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,6 +212,7 @@
 				C18A1F432F6F910600F1591B /* SceneDelegate.swift in Sources */,
 				C18A1F442F6F910600F1591B /* ScheduleViewController.swift in Sources */,
 				C18A1F452F6F910600F1591B /* StatisticsViewController.swift in Sources */,
+				C18A1FD52F73853800F1591B /* CustomTabBarController.swift in Sources */,
 				C18A1F482F6F910600F1591B /* TrackerCreationViewController.swift in Sources */,
 				C18A1F4A2F6F910600F1591B /* TrackerTypeSelectionViewController.swift in Sources */,
 			);

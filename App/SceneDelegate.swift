@@ -18,43 +18,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let tabBarController = UITabBarController()
-        let appearance = UITabBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .systemBackground
-        appearance.shadowColor = .black
-        tabBarController.tabBar.standardAppearance = appearance
-        tabBarController.tabBar.scrollEdgeAppearance = appearance
-        
-        let separatorLine = UIView()
-        separatorLine.backgroundColor = UIColor.lightGray
-        separatorLine.translatesAutoresizingMaskIntoConstraints = false
-        tabBarController.tabBar.addSubview(separatorLine)
+        let tabBarController = CustomTabBarController()
 
-        NSLayoutConstraint.activate([
-            separatorLine.topAnchor.constraint(equalTo: tabBarController.tabBar.topAnchor),
-            separatorLine.leadingAnchor.constraint(equalTo: tabBarController.tabBar.leadingAnchor),
-            separatorLine.trailingAnchor.constraint(equalTo: tabBarController.tabBar.trailingAnchor),
-            separatorLine.heightAnchor.constraint(equalToConstant: 1)
-        ])
         
         let trackersViewController = TrackersViewController()
         let trackersViewNavigationController = UINavigationController(rootViewController: trackersViewController)
         
         
-        trackersViewNavigationController.tabBarItem = UITabBarItem(
-            title: "Трекеры",
-            image: UIImage(resource: .trackersIcon),
-            selectedImage: nil
-        )
-        
         let statisticViewController = StatisticsViewController()
         
-        statisticViewController.tabBarItem = UITabBarItem(
-            title: "Статистика",
-            image: UIImage(resource: .statisticsIcon),
-            selectedImage: nil
-        )
         
         tabBarController.viewControllers = [trackersViewNavigationController, statisticViewController]
         window = UIWindow(windowScene: windowScene)

@@ -173,7 +173,7 @@ extension TrackerCreationViewController: UITableViewDataSource {
             scheduleCell.layer.cornerRadius = 16
             scheduleCell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             scheduleCell.backgroundColor = .secondarySystemBackground
-            
+            scheduleCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 400)
             return scheduleCell
         } else if indexPath.row == 0 {
             var categoryCell = UITableViewCell(style: .subtitle, reuseIdentifier: "Категория")

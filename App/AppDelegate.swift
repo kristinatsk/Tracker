@@ -18,25 +18,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         window = UIWindow()
         
-        let tabBarController = UITabBarController()
+        let tabBarController = CustomTabBarController()
+
+        
         let trackersViewController = TrackersViewController()
-        let statisticsViewController = StatisticsViewController()
+        let trackersViewNavigationController = UINavigationController(rootViewController: trackersViewController)
         
-        let trackersNavigationController = UINavigationController(rootViewController: trackersViewController)
-            
-        trackersNavigationController.tabBarItem = UITabBarItem(
-            title: "Трекеры",
-            image: UIImage(resource: .trackersIcon),
-            selectedImage: nil
-        )
         
-        statisticsViewController.tabBarItem = UITabBarItem(
-            title: "Статистика",
-            image: UIImage(resource: .statisticsIcon),
-            selectedImage: nil
-        )
+        let statisticViewController = StatisticsViewController()
         
-        tabBarController.viewControllers = [trackersNavigationController, statisticsViewController]
+        tabBarController.viewControllers = [trackersViewNavigationController, statisticViewController]
         
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
