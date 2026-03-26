@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  Tracker
-//
-//  Created by Kristina Kostenko on 08.03.26.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -19,14 +12,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let tabBarController = CustomTabBarController()
-
-        
         let trackersViewController = TrackersViewController()
         let trackersViewNavigationController = UINavigationController(rootViewController: trackersViewController)
-        
+                
+                
+        trackersViewNavigationController.tabBarItem = UITabBarItem(
+            title: "Трекеры",
+            image: UIImage(resource: .trackersIcon),
+            selectedImage: nil
+        )
         
         let statisticViewController = StatisticsViewController()
         
+        statisticViewController.tabBarItem = UITabBarItem(
+            title: "Статистика",
+            image: UIImage(resource: .statisticsIcon),
+            selectedImage: nil
+        )
         
         tabBarController.viewControllers = [trackersViewNavigationController, statisticViewController]
         window = UIWindow(windowScene: windowScene)

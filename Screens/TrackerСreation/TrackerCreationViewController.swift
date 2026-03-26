@@ -8,6 +8,7 @@ final class TrackerCreationViewController: UIViewController {
     weak var delegate: TrackerCreationDelegate?
     private var selectedSchedule: [Int] = []
     private let isHabit: Bool
+    private var tableViewConstraint: NSLayoutConstraint?
     
     init(isHabit: Bool) {
         self.isHabit = isHabit
@@ -21,9 +22,10 @@ final class TrackerCreationViewController: UIViewController {
 
     private lazy var trackerNameTextField: UITextField = {
         let textField = UITextField()
-        textField.backgroundColor = .systemGray6
+        textField.backgroundColor = UIColor(resource: .tableViewBackground)
         textField.layer.cornerRadius = 16
         textField.placeholder = "Введите название трекера"
+        textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         textField.leftView = paddingView
         textField.leftViewMode = .always
@@ -106,6 +108,8 @@ final class TrackerCreationViewController: UIViewController {
         view.addSubview(buttonsStackView)
         view.addSubview(warningLabel)
         
+        tableViewConstraint = creationTableView.topAnchor.constraint(equalTo: trackerNameTextField.bottomAnchor, constant: 24)
+        
         NSLayoutConstraint.activate([
             trackerNameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
             trackerNameTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
@@ -115,7 +119,7 @@ final class TrackerCreationViewController: UIViewController {
             warningLabel.topAnchor.constraint(equalTo: trackerNameTextField.bottomAnchor, constant: 8),
             warningLabel.centerXAnchor.constraint(equalTo: trackerNameTextField.centerXAnchor),
             
-            creationTableView.topAnchor.constraint(equalTo: trackerNameTextField.bottomAnchor, constant: 62),
+            tableViewConstraint!,
             creationTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             creationTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             self.isHabit ? creationTableView.heightAnchor.constraint(equalToConstant: 150) : creationTableView.heightAnchor.constraint(equalToConstant: 75),
@@ -216,6 +220,12 @@ extension TrackerCreationViewController: UITextFieldDelegate {
         
         let isWithinLimit = updatedText.count <= 38
         warningLabel.isHidden = isWithinLimit
+        
+        if isWithinLimit {
+            tableViewConstraint?.constant = 24
+        } else {
+            tableViewConstraint?.constant = 62
+        }
         
         return isWithinLimit
     }
