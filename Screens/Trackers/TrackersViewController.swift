@@ -115,10 +115,9 @@ final class TrackersViewController: UIViewController {
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
         self.currentDate = sender.date
-        let calendar = Calendar.current
-        let filterWeekday = calendar.component(.weekday, from: self.currentDate)
-        guard let selectedWeekDay = WeekDay(rawValue: filterWeekday) else { return }
-        try? trackerStore.filterTracker(by: selectedWeekDay)
+        let filterWeekday = Calendar.current.component(.weekday, from: currentDate)
+        guard let selectedWeekDay = WeekDay(calendarWeekday: filterWeekday) else { return }
+        trackerStore.filterTracker(by: selectedWeekDay)
         collectionView.reloadData()
         updatePlaceHolderVisibility()
         
@@ -220,9 +219,9 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
 }
 
 extension TrackersViewController: TrackerCreationDelegate {
-    func createTracker(trackerName: String, schedule: [Int], emoji: String?, color: UIColor?) {
-        let allWeekDays = [WeekDay.sunday, WeekDay.monday, WeekDay.tuesday, WeekDay.wednesday, WeekDay.thursday, WeekDay.friday,WeekDay.saturday]
-        let realSchedule = schedule.map { allWeekDays[$0] }
+    func createTracker(trackerName: String, schedule: [Int], emoji: String?, color: UIColor?, category: String?) {
+
+        let realSchedule = schedule.compactMap { WeekDay(scheduleIndex: $0) }
         
         let tracker = Tracker(
             id: UUID(),
@@ -231,11 +230,13 @@ extension TrackersViewController: TrackerCreationDelegate {
             emoji: emoji ?? "❓",
             schedule: realSchedule)
         
-        try? trackerStore.addRecord(tracker, category: "Домашний уют")
+        try? trackerStore.addTracker(tracker, category: category ?? "Без категории")
         
         updatePlaceHolderVisibility()
         self.dismiss(animated: true)
     }
+    
+    
 }
 
 // MARK: - TrackerStoreDelegate

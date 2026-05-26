@@ -9,14 +9,23 @@ struct TrackerCategoryUpdate {
 protocol TrackerCategoryDelegate: AnyObject {
     func didUpdate(_ update: TrackerCategoryUpdate)
 }
+protocol TrackerCategoryStoreProtocol {
+    var categoriesIsEmpty: Bool { get }
+    var numberOfCategories: Int { get }
+    func categoryTitle(at indexPath: IndexPath) -> String?
+    func addCategory(with title: String) throws
+}
 
 final class TrackerCategoryStore: NSObject {
-    weak var delegate: TrackerCategoryDelegate?
     
+    // MARK: - Properties
+    weak var delegate: TrackerCategoryDelegate?
     private let context: NSManagedObjectContext
     private var insertedIndexes: IndexSet?
     private var deletedIndexes: IndexSet?
     
+    
+    // MARK: - Core Data
     private lazy var fetchedResultsController: NSFetchedResultsController <TrackerCategoryCoreData> = {
         
         let fetchRequest = TrackerCategoryCoreData.fetchRequest()
@@ -37,8 +46,13 @@ final class TrackerCategoryStore: NSObject {
         
     }()
     
+    // MARK: - Init
     convenience override init() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Unable to get AppDelegate")
+        }
+        let context = appDelegate.persistentContainer.viewContext
+        
         self.init(context: context)
     }
     
@@ -47,6 +61,29 @@ final class TrackerCategoryStore: NSObject {
     }
 }
 
+extension TrackerCategoryStore: TrackerCategoryStoreProtocol {
+
+    var categoriesIsEmpty: Bool {
+        fetchedResultsController.fetchedObjects?.isEmpty ?? true
+    }
+    
+    var numberOfCategories: Int {
+        fetchedResultsController.fetchedObjects?.count ?? 0
+    }
+    
+    func categoryTitle(at indexPath: IndexPath) -> String? {
+        fetchedResultsController.object(at: indexPath).title
+    }
+    
+    func addCategory(with title: String) throws {
+        let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
+        trackerCategoryCoreData.title = title
+        
+        try context.save()
+    }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate
 extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
         insertedIndexes = IndexSet()
@@ -55,8 +92,8 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
         delegate?.didUpdate(TrackerCategoryUpdate(
-            insertedIndexes: insertedIndexes!,
-            deletedIndexes: deletedIndexes!
+            insertedIndexes: insertedIndexes ?? [],
+            deletedIndexes: deletedIndexes ?? []
             )
         )
     }

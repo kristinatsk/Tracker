@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C17DEA982F83530B00F6A491 /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17DEA972F83530B00F6A491 /* ColorCollectionViewCell.swift */; };
+		C18089842FBD5447005F8A06 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18089832FBD5433005F8A06 /* CategoryViewController.swift */; };
+		C18089882FBEB5B4005F8A06 /* CategoryCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18089872FBEB58B005F8A06 /* CategoryCreationViewController.swift */; };
 		C18931842F7E1CD600C5537F /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18931832F7E1CD600C5537F /* EmojiCollectionViewCell.swift */; };
 		C18A1F3E2F6F910600F1591B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C18A1F322F6F910600F1591B /* Assets.xcassets */; };
 		C18A1F402F6F910600F1591B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C18A1F342F6F910600F1591B /* LaunchScreen.storyboard */; };
@@ -23,6 +25,8 @@
 /* Begin PBXFileReference section */
 		C10602812F5D67BD00AD4C5E /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C17DEA972F83530B00F6A491 /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
+		C18089832FBD5433005F8A06 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		C18089872FBEB58B005F8A06 /* CategoryCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCreationViewController.swift; sourceTree = "<group>"; };
 		C18931832F7E1CD600C5537F /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
 		C18A1F312F6F910600F1591B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C18A1F322F6F910600F1591B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -124,6 +128,8 @@
 		C18A1FC22F72FAEB00F1591B /* TrackerСreation */ = {
 			isa = PBXGroup;
 			children = (
+				C18089872FBEB58B005F8A06 /* CategoryCreationViewController.swift */,
+				C18089832FBD5433005F8A06 /* CategoryViewController.swift */,
 				C18A1F372F6F910600F1591B /* ScheduleViewController.swift */,
 				C18A1F3B2F6F910600F1591B /* TrackerCreationViewController.swift */,
 				C18A1F3D2F6F910600F1591B /* TrackerTypeSelectionViewController.swift */,
@@ -229,6 +235,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C18A1F412F6F910600F1591B /* AppDelegate.swift in Sources */,
+				C18089882FBEB5B4005F8A06 /* CategoryCreationViewController.swift in Sources */,
+				C18089842FBD5447005F8A06 /* CategoryViewController.swift in Sources */,
 				C18A1F432F6F910600F1591B /* SceneDelegate.swift in Sources */,
 				C18A1F442F6F910600F1591B /* ScheduleViewController.swift in Sources */,
 				C18931842F7E1CD600C5537F /* EmojiCollectionViewCell.swift in Sources */,

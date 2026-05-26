@@ -18,12 +18,15 @@ protocol TrackerRecordStoreProtocol {
 }
 
 final class TrackerRecordStore: NSObject {
-    weak var delegate: TrackerRecordDelegate?
     
+    //MARK: Properties
+    weak var delegate: TrackerRecordDelegate?
     private let context: NSManagedObjectContext
     private var insertedIndexes: IndexSet?
     private var deletedIndexes: IndexSet?
     
+    
+    //MARK: Core Data
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerRecordCoreData> = {
         
         let fetchRequest = TrackerRecordCoreData.fetchRequest()
@@ -45,8 +48,13 @@ final class TrackerRecordStore: NSObject {
         
     }()
     
+    //MARK: Init
     convenience override init() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Unable to get AppDelegate")
+        }
+        let context = appDelegate.persistentContainer.viewContext
+        
         self.init(context: context)
     }
     
@@ -88,6 +96,7 @@ extension TrackerRecordStore: TrackerRecordStoreProtocol {
     }
 }
 
+// MARK: - NSFetchedResultsControllerDelegate
 extension TrackerRecordStore: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
         insertedIndexes = IndexSet()
@@ -96,8 +105,8 @@ extension TrackerRecordStore: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
         delegate?.didUpdate(TrackerRecordUpdate(
-            insertedIndexes: insertedIndexes!,
-            deletedIndexes: deletedIndexes!
+            insertedIndexes: insertedIndexes ?? [],
+            deletedIndexes: deletedIndexes ?? []
             )
         )
     }

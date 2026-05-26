@@ -1,12 +1,13 @@
 import UIKit
 
 protocol TrackerCreationDelegate: AnyObject {
-    func createTracker(trackerName: String, schedule: [Int], emoji: String?, color: UIColor?)
+    func createTracker(trackerName: String, schedule: [Int], emoji: String?, color: UIColor?, category: String?)
 }
 
 final class TrackerCreationViewController: UIViewController {
     weak var delegate: TrackerCreationDelegate?
     private var selectedSchedule: [Int] = []
+    private var selectedCategory: String?
     private let isHabit: Bool
     private var tableViewConstraint: NSLayoutConstraint?
     private let emojis: [String] = ["🙂", "😻", "🌺", "🐶", "❤️", "😱",
@@ -220,8 +221,9 @@ final class TrackerCreationViewController: UIViewController {
         guard let trackerName = trackerNameTextField.text else { return }
         guard let _ = selectedEmoji else { return }
         guard let _ = selectedColor else { return }
+        guard let _ = selectedCategory else { return }
         
-        delegate?.createTracker(trackerName: trackerName, schedule: selectedSchedule, emoji: selectedEmoji, color: selectedColor)
+        delegate?.createTracker(trackerName: trackerName, schedule: selectedSchedule, emoji: selectedEmoji, color: selectedColor, category: selectedCategory)
     }
     
     @objc private func textChanged() {
@@ -265,7 +267,7 @@ extension TrackerCreationViewController: UITableViewDataSource {
         } else if indexPath.row == 0 {
             var categoryCell = UITableViewCell(style: .subtitle, reuseIdentifier: "Категория")
             categoryCell.textLabel?.text = "Категория"
-            categoryCell.detailTextLabel?.text = "Важное"
+            categoryCell.detailTextLabel?.text = selectedCategory
             categoryCell.accessoryType = .disclosureIndicator
             categoryCell.layer.masksToBounds = true
             categoryCell.layer.cornerRadius = 16
@@ -286,7 +288,12 @@ extension TrackerCreationViewController: UITableViewDelegate {
         let scheduleVC = ScheduleViewController()
         let scheduleNavController = UINavigationController(rootViewController: scheduleVC)
         scheduleVC.delegate = self
-        indexPath.row == 0 ? print("Переход к Категориям") : present(scheduleNavController, animated: true, completion: nil)
+        
+        let newCategoryVC = CategoryViewController()
+        let categoryNavController = UINavigationController(rootViewController: newCategoryVC)
+        newCategoryVC.delegate = self
+        newCategoryVC.selectedCategory = self.selectedCategory
+        indexPath.row == 0 ? present(categoryNavController, animated: true, completion: nil) : present(scheduleNavController, animated: true, completion: nil)
     }
 }
 
@@ -313,6 +320,13 @@ extension TrackerCreationViewController: ScheduleViewControllerDelegate {
     func completeSchedule(data: [Int]) {
         self.selectedSchedule = data
         dismiss(animated: true)
+        creationTableView.reloadData()
+    }
+}
+
+extension TrackerCreationViewController: CategoryViewControllerDelegate {
+    func chooseCategory(title: String) {
+        self.selectedCategory = title
         creationTableView.reloadData()
     }
 }

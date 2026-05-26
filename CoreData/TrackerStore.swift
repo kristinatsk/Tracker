@@ -17,7 +17,7 @@ protocol TrackerStoreProtocol {
     var trackersIsEmpty: Bool { get }
     func numberOfRowsInSection(_ section: Int) -> Int
     func object(at indexPath: IndexPath) -> TrackerCoreData
-    func addRecord(_ tracker: Tracker, category: String) throws
+    func addTracker(_ tracker: Tracker, category: String) throws
     func deleteRecord(at indexPath: IndexPath) throws
     func headerTitle(for section: Int) -> String?
     func filterTracker(by day: WeekDay)
@@ -25,15 +25,15 @@ protocol TrackerStoreProtocol {
 }
 
 final class TrackerStore: NSObject {
-    
+    //MARK: Properties
     weak var delegate: TrackerStoreDelegate?
-    
     private let context: NSManagedObjectContext
     private var insertedSections: IndexSet?
     private var deletedSections: IndexSet?
     private var insertedCells: [IndexPath]?
     private var deletedCells: [IndexPath]?
     
+    //MARK: Core Data
     private lazy var fetchedResultsController: NSFetchedResultsController <TrackerCoreData> = {
         
         let fetchRequest = TrackerCoreData.fetchRequest()
@@ -54,8 +54,13 @@ final class TrackerStore: NSObject {
         return fetchedResultsController
     }()
     
+    //MARK: Init
     convenience override init() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Unable to get AppDelegate")
+        }
+        let context = appDelegate.persistentContainer.viewContext
+        
         self.init(context: context)
     }
     init(context: NSManagedObjectContext) {
@@ -78,7 +83,7 @@ extension TrackerStore: TrackerStoreProtocol {
         fetchedResultsController.object(at: indexPath)
     }
     
-    func addRecord(_ tracker: Tracker, category: String) throws {
+    func addTracker(_ tracker: Tracker, category: String) throws {
         let trackerCoreData = TrackerCoreData(context: context)
         trackerCoreData.id = tracker.id
         trackerCoreData.name = tracker.name
@@ -115,6 +120,7 @@ extension TrackerStore: TrackerStoreProtocol {
     }
 }
 
+// MARK: - NSFetchedResultsControllerDelegate
 extension TrackerStore: NSFetchedResultsControllerDelegate{
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
         insertedSections = IndexSet()
@@ -126,10 +132,10 @@ extension TrackerStore: NSFetchedResultsControllerDelegate{
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
         delegate?.didUpdate(TrackerStoreUpdate(
-            insertedSections: insertedSections!,
-            deletedSections: deletedSections!,
-            insertedCells: insertedCells!,
-            deletedCells: deletedCells!
+            insertedSections: insertedSections ?? [],
+            deletedSections: deletedSections ?? [],
+            insertedCells: insertedCells ?? [],
+            deletedCells: deletedCells ?? []
             )
         )
         
