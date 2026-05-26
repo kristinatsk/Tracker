@@ -15,9 +15,6 @@ final class CustomTabBarController: UITabBarController {
         tabBar.layer.borderWidth = 0.5
         tabBar.layer.borderColor = UIColor.lightGray.cgColor
         
-        if #available(iOS 15.0, *) {
-            tabBar.scrollEdgeAppearance = appearance
-        }
         
         tabBar.tintColor = .systemBlue
         tabBar.unselectedItemTintColor = .systemGray
