@@ -10,29 +10,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        let tabBarController = CustomTabBarController()
-        let trackersViewController = TrackersViewController()
-        let trackersViewNavigationController = UINavigationController(rootViewController: trackersViewController)
-                
-                
-        trackersViewNavigationController.tabBarItem = UITabBarItem(
-            title: "Трекеры",
-            image: UIImage(resource: .trackersIcon),
-            selectedImage: nil
-        )
-        
-        let statisticViewController = StatisticsViewController()
-        
-        statisticViewController.tabBarItem = UITabBarItem(
-            title: "Статистика",
-            image: UIImage(resource: .statisticsIcon),
-            selectedImage: nil
-        )
-        
-        tabBarController.viewControllers = [trackersViewNavigationController, statisticViewController]
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = tabBarController
+        
+        let onboardingViewController = OnboardingViewController()
+        
+        if UserDefaults.standard.bool(forKey: "hasSeenOnboarding") {
+            let tabBarController = CustomTabBarController()
+            
+            let trackersViewController = TrackersViewController()
+            let trackersNavigation = UINavigationController(rootViewController: trackersViewController)
+            trackersNavigation.tabBarItem = UITabBarItem(title: "Трекеры", image: UIImage(resource: .trackersIcon), selectedImage: nil)
+            
+            let statisticsViewController = StatisticsViewController()
+            statisticsViewController.tabBarItem = UITabBarItem(title: "Статистика", image: UIImage(resource: .statisticsIcon), selectedImage: nil)
+            
+            tabBarController.viewControllers = [trackersNavigation, statisticsViewController]
+            
+            window?.rootViewController = tabBarController
+        } else {
+            window?.rootViewController = onboardingViewController
+        }
+
         window?.makeKeyAndVisible()
     }
 
