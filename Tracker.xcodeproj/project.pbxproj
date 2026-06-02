@@ -20,6 +20,7 @@
 		C18A1F482F6F910600F1591B /* TrackerCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18A1F3B2F6F910600F1591B /* TrackerCreationViewController.swift */; };
 		C18A1F4A2F6F910600F1591B /* TrackerTypeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18A1F3D2F6F910600F1591B /* TrackerTypeSelectionViewController.swift */; };
 		C18A1FD52F73853800F1591B /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18A1FD42F73852600F1591B /* CustomTabBarController.swift */; };
+		C19C34252FCE1D97008E3832 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19C34242FCE1D97008E3832 /* CategoryViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		C18A1F3B2F6F910600F1591B /* TrackerCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCreationViewController.swift; sourceTree = "<group>"; };
 		C18A1F3D2F6F910600F1591B /* TrackerTypeSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTypeSelectionViewController.swift; sourceTree = "<group>"; };
 		C18A1FD42F73852600F1591B /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		C19C34242FCE1D97008E3832 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -141,6 +143,7 @@
 				C18A1F3D2F6F910600F1591B /* TrackerTypeSelectionViewController.swift */,
 				C18931832F7E1CD600C5537F /* EmojiCollectionViewCell.swift */,
 				C17DEA972F83530B00F6A491 /* ColorCollectionViewCell.swift */,
+				C19C34242FCE1D97008E3832 /* CategoryViewModel.swift */,
 			);
 			path = "TrackerСreation";
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 				C18A1F482F6F910600F1591B /* TrackerCreationViewController.swift in Sources */,
 				C18A1F4A2F6F910600F1591B /* TrackerTypeSelectionViewController.swift in Sources */,
 				C17DEA982F83530B00F6A491 /* ColorCollectionViewCell.swift in Sources */,
+				C19C34252FCE1D97008E3832 /* CategoryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

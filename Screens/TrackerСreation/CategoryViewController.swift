@@ -5,9 +5,16 @@ protocol CategoryViewControllerDelegate: AnyObject {
 }
 
 final class CategoryViewController: UIViewController {
-    private let trackerCategoryStore = TrackerCategoryStore()
+    private var viewModel = CategoryViewModel(for: TrackerCategoryStore())
     weak var delegate: CategoryViewControllerDelegate?
-    var selectedCategory: String?
+    var selectedCategory: String? {
+        get {
+            viewModel.selectedCategory
+        }
+        set {
+            viewModel.selectedCategory = newValue
+        }
+    }
     
     private lazy var categoryTableView: UITableView = {
         let tableView = UITableView()
@@ -58,7 +65,11 @@ final class CategoryViewController: UIViewController {
         
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
-        trackerCategoryStore.delegate = self
+        viewModel.onCategoriesUpdated = { [weak self] _ in
+            
+            self?.updateCategoryPlaceHolderVisibility()
+            self?.categoryTableView.reloadData()
+        }
         
         view.addSubview(categoryTableView)
         view.addSubview(categoryButton)
@@ -91,7 +102,7 @@ final class CategoryViewController: UIViewController {
     }
     
     private func updateCategoryPlaceHolderVisibility() {
-        let isEmpty = trackerCategoryStore.categoriesIsEmpty
+        let isEmpty = viewModel.categoriesIsEmpty
         categoryPlaceholderImageView.isHidden = !isEmpty
         categoryPlaceholderLabel.isHidden = !isEmpty
         categoryTableView.isHidden = isEmpty
@@ -106,15 +117,15 @@ final class CategoryViewController: UIViewController {
 
 extension CategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        trackerCategoryStore.numberOfCategories
+        viewModel.numberOfCategories
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let categoryTitle = trackerCategoryStore.categoryTitle(at: indexPath)
+        let categoryTitle = viewModel.categoryTitle(at: indexPath)
         cell.textLabel?.text = categoryTitle
         cell.backgroundColor = .secondarySystemBackground
-        if cell.textLabel?.text == self.selectedCategory {
+        if cell.textLabel?.text == viewModel.selectedCategory {
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none
@@ -123,14 +134,6 @@ extension CategoryViewController: UITableViewDataSource {
         return cell
     }
     
-    
-}
-
-extension CategoryViewController: TrackerCategoryDelegate {
-    func didUpdate(_ update: TrackerCategoryUpdate) {
-        updateCategoryPlaceHolderVisibility()
-        categoryTableView.reloadData()
-    }
 }
 
 extension CategoryViewController: UITableViewDelegate {
@@ -139,7 +142,7 @@ extension CategoryViewController: UITableViewDelegate {
         
         let cell = tableView.cellForRow(at: indexPath)
         cell?.accessoryType = .checkmark
-        guard let categoryTitle = trackerCategoryStore.categoryTitle(at: indexPath) else { return }
+        guard let categoryTitle = viewModel.categoryTitle(at: indexPath) else { return }
         delegate?.chooseCategory(title: categoryTitle)
         dismiss(animated: true)
     }
