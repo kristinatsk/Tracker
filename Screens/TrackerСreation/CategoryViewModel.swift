@@ -25,6 +25,10 @@ final class CategoryViewModel {
     func categoryTitle(at indexPath: IndexPath) -> String? {
         model.categoryTitle(at: indexPath)
     }
+     
+    func deleteCategory(at indexPath: IndexPath) {
+       try? model.deleteCategory(at: indexPath)
+    }
 }
 
 extension CategoryViewModel: TrackerCategoryDelegate {

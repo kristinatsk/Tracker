@@ -51,6 +51,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
         
     override init(frame: CGRect) {
         super.init(frame: frame)

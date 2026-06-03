@@ -78,6 +78,7 @@ final class CategoryViewController: UIViewController {
         
         categoryButton.addTarget(self, action: #selector(addCategoryButtonTapped), for: .touchUpInside)
         
+        
         NSLayoutConstraint.activate([
             
             categoryTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
@@ -108,11 +109,13 @@ final class CategoryViewController: UIViewController {
         categoryTableView.isHidden = isEmpty
     }
     
+    
     @objc func addCategoryButtonTapped() {
         let newCategoryVC = CategoryCreationViewController()
         let categoryNavController = UINavigationController(rootViewController: newCategoryVC)
         present(categoryNavController, animated: true, completion: nil)
     }
+    
 }
 
 extension CategoryViewController: UITableViewDataSource {
@@ -145,6 +148,44 @@ extension CategoryViewController: UITableViewDelegate {
         guard let categoryTitle = viewModel.categoryTitle(at: indexPath) else { return }
         delegate?.chooseCategory(title: categoryTitle)
         dismiss(animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let categoryTitle = viewModel.categoryTitle(at: indexPath) else { return nil }
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let editAction = UIAction(title: "Редактировать") { [weak self] _ in
+                let editCategory = CategoryCreationViewController()
+                editCategory.categoryToEdit = categoryTitle
+                let categoryNavController = UINavigationController(rootViewController: editCategory)
+                self?.present(categoryNavController, animated: true, completion: nil)
+            }
+            
+            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+                let alertController = UIAlertController(
+                    title: "Эта категория точно не нужна?",
+                    message: nil,
+                    preferredStyle: .actionSheet
+                    )
+                let delete = UIAlertAction(title: "Удалить", style: .destructive) { _ in
+                    self?.viewModel.deleteCategory(at: indexPath)
+                }
+                
+                let cancel = UIAlertAction(title: "Отменить", style: .cancel)
+                
+                alertController.addAction(delete)
+                alertController.addAction(cancel)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    self?.present(alertController, animated: true)
+                }
+                
+
+                
+            }
+            
+            return UIMenu(title: "", children: [editAction, deleteAction])
+        }
     }
 }
 
