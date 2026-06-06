@@ -21,7 +21,7 @@ protocol TrackerStoreProtocol {
     func addTracker(_ tracker: Tracker, category: String) throws
     func deleteTracker(at indexPath: IndexPath) throws
     func headerTitle(for section: Int) -> String?
-    func filterTracker(by day: WeekDay)
+    func filterTracker(by day: WeekDay, searchText: String)
     func updateTracker(tracker: Tracker, category: String) throws
     
 }
@@ -119,10 +119,17 @@ extension TrackerStore: TrackerStoreProtocol {
         fetchedResultsController.sections?[section].name
     }
     
-    func filterTracker(by day: WeekDay) {
-        let predicate = NSPredicate(format: "%K CONTAINS %@", #keyPath(TrackerCoreData.schedule), String(day.rawValue))
+    func filterTracker(by day: WeekDay, searchText: String = "") {
         
-        fetchedResultsController.fetchRequest.predicate = predicate
+        let dayPredicate = NSPredicate(format: "%K CONTAINS %@", #keyPath(TrackerCoreData.schedule), String(day.rawValue))
+        if searchText.isEmpty {
+            fetchedResultsController.fetchRequest.predicate = dayPredicate
+        } else {
+            let textPredicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(TrackerCoreData.name), searchText)
+            
+            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [dayPredicate, textPredicate])
+            fetchedResultsController.fetchRequest.predicate = compoundPredicate
+        }
         
         try? fetchedResultsController.performFetch()
     }

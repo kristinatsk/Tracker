@@ -70,6 +70,7 @@ final class TrackersViewController: UIViewController {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.placeholder = "Поиск"
         navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
         
         filterButton.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
         
@@ -129,9 +130,19 @@ final class TrackersViewController: UIViewController {
     
     
     private func updatePlaceHolderVisibility() {
+        let searchText = navigationItem.searchController?.searchBar.text ?? ""
+        if !searchText.isEmpty {
+            placeholderImageView.image = UIImage(resource: .searchTrackerError)
+            placeholderLabel.text = "Ничего не найдено"
+        } else {
+            placeholderImageView.image = UIImage(resource: .starPlaceholder)
+            placeholderLabel.text = "Что будем отслеживать?"
+        }
+        
         placeholderImageView.isHidden = !trackerStore.trackersIsEmpty
         placeholderLabel.isHidden = !trackerStore.trackersIsEmpty
         filterButton.isHidden = trackerStore.trackersIsEmpty
+        
     }
     
 }
@@ -333,4 +344,17 @@ extension TrackersViewController: TrackerStoreDelegate {
             collectionView.reloadItems(at: updatedCells)
         }
     }
+}
+
+extension TrackersViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let text = searchController.searchBar.text
+        let filterWeekday = Calendar.current.component(.weekday, from: currentDate)
+        guard let selectedWeekDay = WeekDay(calendarWeekday: filterWeekday) else { return }
+        trackerStore.filterTracker(by: selectedWeekDay, searchText: text ?? "")
+        collectionView.reloadData()
+        updatePlaceHolderVisibility()
+    }
+    
+    
 }
