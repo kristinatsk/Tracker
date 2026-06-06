@@ -6,6 +6,7 @@ struct TrackerStoreUpdate {
     let deletedSections: IndexSet
     let insertedCells: [IndexPath]
     let deletedCells: [IndexPath]
+    let updatedCells: [IndexPath]
 }
 
 protocol TrackerStoreDelegate: AnyObject {
@@ -18,9 +19,10 @@ protocol TrackerStoreProtocol {
     func numberOfRowsInSection(_ section: Int) -> Int
     func object(at indexPath: IndexPath) -> TrackerCoreData
     func addTracker(_ tracker: Tracker, category: String) throws
-    func deleteRecord(at indexPath: IndexPath) throws
+    func deleteTracker(at indexPath: IndexPath) throws
     func headerTitle(for section: Int) -> String?
     func filterTracker(by day: WeekDay)
+    func updateTracker(tracker: Tracker, category: String) throws
     
 }
 
@@ -32,18 +34,23 @@ final class TrackerStore: NSObject {
     private var deletedSections: IndexSet?
     private var insertedCells: [IndexPath]?
     private var deletedCells: [IndexPath]?
+    private var updatedCells: [IndexPath]?
     
     //MARK: Core Data
     private lazy var fetchedResultsController: NSFetchedResultsController <TrackerCoreData> = {
         
         let fetchRequest = TrackerCoreData.fetchRequest()
         
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "isPinned", ascending: false),
+            NSSortDescriptor(key: "category.title", ascending: true),
+            NSSortDescriptor(key: "name", ascending: false)
+        ]
         
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
             managedObjectContext: context,
-            sectionNameKeyPath: "category.title",
+            sectionNameKeyPath: #keyPath(TrackerCoreData.sectionHeader),
             cacheName: nil
         )
         
@@ -90,6 +97,7 @@ extension TrackerStore: TrackerStoreProtocol {
         trackerCoreData.color = tracker.color.toHexString()
         trackerCoreData.emoji = tracker.emoji
         trackerCoreData.schedule = tracker.schedule.map { String($0.rawValue) }.joined(separator: ",")
+        trackerCoreData.isPinned = tracker.isPinned
         
         let categoryRequest = TrackerCategoryCoreData.fetchRequest()
         categoryRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(TrackerCategoryCoreData.title), category)
@@ -101,7 +109,7 @@ extension TrackerStore: TrackerStoreProtocol {
         try context.save()
     }
     
-    func deleteRecord(at indexPath: IndexPath) throws {
+    func deleteTracker(at indexPath: IndexPath) throws {
         let trackerCoreData = fetchedResultsController.object(at: indexPath)
         context.delete(trackerCoreData)
         try context.save()
@@ -118,6 +126,29 @@ extension TrackerStore: TrackerStoreProtocol {
         
         try? fetchedResultsController.performFetch()
     }
+    
+    func updateTracker(tracker: Tracker, category: String) throws {
+        let trackerRequest = TrackerCoreData.fetchRequest()
+        trackerRequest.predicate = NSPredicate(format: "%K == %@", "id", tracker.id as CVarArg)
+        let object = try? context.fetch(trackerRequest)
+        if let trackerCoreData = object?.first {
+            trackerCoreData.name = tracker.name
+            trackerCoreData.color = tracker.color.toHexString()
+            trackerCoreData.emoji = tracker.emoji
+            trackerCoreData.schedule = tracker.schedule.map { String($0.rawValue) }.joined(separator: ",")
+            trackerCoreData.isPinned = tracker.isPinned
+            
+            let categoryRequest = TrackerCategoryCoreData.fetchRequest()
+            categoryRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(TrackerCategoryCoreData.title), category)
+            
+            let categoryCoreData = (try? context.fetch(categoryRequest))?.first ?? TrackerCategoryCoreData(context: context)
+            categoryCoreData.title = category
+            trackerCoreData.category = categoryCoreData
+        }
+        
+        try context.save()
+        
+    }
 }
 
 // MARK: - NSFetchedResultsControllerDelegate
@@ -127,6 +158,7 @@ extension TrackerStore: NSFetchedResultsControllerDelegate{
         deletedSections = IndexSet()
         insertedCells = [IndexPath]()
         deletedCells = [IndexPath]()
+        updatedCells = [IndexPath]()
         
     }
     
@@ -135,7 +167,8 @@ extension TrackerStore: NSFetchedResultsControllerDelegate{
             insertedSections: insertedSections ?? [],
             deletedSections: deletedSections ?? [],
             insertedCells: insertedCells ?? [],
-            deletedCells: deletedCells ?? []
+            deletedCells: deletedCells ?? [],
+            updatedCells: updatedCells ?? []
             )
         )
         
@@ -143,6 +176,7 @@ extension TrackerStore: NSFetchedResultsControllerDelegate{
         deletedSections = nil
         insertedCells = nil
         deletedCells = nil
+        updatedCells = nil
     }
     
     func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
@@ -154,6 +188,15 @@ extension TrackerStore: NSFetchedResultsControllerDelegate{
         case .insert:
             if let indexPath = newIndexPath {
                 insertedCells?.append(indexPath)
+            }
+        case .update:
+            if let indexPath = indexPath {
+                updatedCells?.append(indexPath)
+            }
+        case .move:
+            if let oldIndexPath = indexPath, let newIndexPath = newIndexPath {
+                deletedCells?.append(oldIndexPath)
+                insertedCells?.append(newIndexPath)
             }
         default:
             break
@@ -172,3 +215,8 @@ extension TrackerStore: NSFetchedResultsControllerDelegate{
     }
 }
 
+extension TrackerCoreData {
+    @objc var sectionHeader: String {
+        return self.isPinned ? "Закрепленные" : (self.category?.title ?? "Без категории")
+    }
+}
