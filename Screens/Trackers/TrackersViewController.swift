@@ -118,7 +118,8 @@ final class TrackersViewController: UIViewController {
         self.currentDate = sender.date
         let filterWeekday = Calendar.current.component(.weekday, from: currentDate)
         guard let selectedWeekDay = WeekDay(calendarWeekday: filterWeekday) else { return }
-        trackerStore.filterTracker(by: selectedWeekDay)
+        let searchText = navigationItem.searchController?.searchBar.text ?? ""
+        trackerStore.filterTracker(by: selectedWeekDay, searchText: searchText)
         collectionView.reloadData()
         updatePlaceHolderVisibility()
         
