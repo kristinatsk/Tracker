@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C170F6832FD59774009F7821 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C170F6822FD59774009F7821 /* CategoryTableViewCell.swift */; };
 		C17DEA982F83530B00F6A491 /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17DEA972F83530B00F6A491 /* ColorCollectionViewCell.swift */; };
 		C18089842FBD5447005F8A06 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18089832FBD5433005F8A06 /* CategoryViewController.swift */; };
 		C18089882FBEB5B4005F8A06 /* CategoryCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18089872FBEB58B005F8A06 /* CategoryCreationViewController.swift */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		C10602812F5D67BD00AD4C5E /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C170F6822FD59774009F7821 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		C17DEA972F83530B00F6A491 /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		C18089832FBD5433005F8A06 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		C18089872FBEB58B005F8A06 /* CategoryCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCreationViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				C18931832F7E1CD600C5537F /* EmojiCollectionViewCell.swift */,
 				C17DEA972F83530B00F6A491 /* ColorCollectionViewCell.swift */,
 				C19C34242FCE1D97008E3832 /* CategoryViewModel.swift */,
+				C170F6822FD59774009F7821 /* CategoryTableViewCell.swift */,
 			);
 			path = "TrackerСreation";
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				C18A1F432F6F910600F1591B /* SceneDelegate.swift in Sources */,
 				C18A1F442F6F910600F1591B /* ScheduleViewController.swift in Sources */,
 				C18931842F7E1CD600C5537F /* EmojiCollectionViewCell.swift in Sources */,
+				C170F6832FD59774009F7821 /* CategoryTableViewCell.swift in Sources */,
 				C18A1F452F6F910600F1591B /* StatisticsViewController.swift in Sources */,
 				C18A1FD52F73853800F1591B /* CustomTabBarController.swift in Sources */,
 				C18A1F482F6F910600F1591B /* TrackerCreationViewController.swift in Sources */,

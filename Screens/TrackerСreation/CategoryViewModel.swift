@@ -8,12 +8,14 @@ final class CategoryViewModel {
     
     var selectedCategory: String?
     var onCategoriesUpdated: Binding<Void>?
+    var onCategorySelected: Binding<String>?
     var categoriesIsEmpty: Bool {
         model.categoriesIsEmpty
     }
     var numberOfCategories: Int {
         model.numberOfCategories
     }
+    
     
     private let model: TrackerCategoryStore
     
@@ -29,6 +31,14 @@ final class CategoryViewModel {
     func deleteCategory(at indexPath: IndexPath) {
        try? model.deleteCategory(at: indexPath)
     }
+    
+    func didSelectCategory(at indexPath: IndexPath) {
+        guard let title  = categoryTitle(at: indexPath) else { return }
+        self.selectedCategory = title
+        onCategorySelected?(title)
+        
+    }
+    
 }
 
 extension CategoryViewModel: TrackerCategoryDelegate {

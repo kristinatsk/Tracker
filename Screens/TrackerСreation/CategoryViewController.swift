@@ -25,7 +25,7 @@ final class CategoryViewController: UIViewController {
         tableView.backgroundColor = UIColor(resource: .tableViewBackground)
         tableView.layer.cornerRadius = 16
         tableView.rowHeight = 75
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "cell")
         return tableView
     }()
     
@@ -69,6 +69,10 @@ final class CategoryViewController: UIViewController {
             
             self?.updateCategoryPlaceHolderVisibility()
             self?.categoryTableView.reloadData()
+        }
+        viewModel.onCategorySelected = { [weak self] selectedTitle in
+            self?.delegate?.chooseCategory(title: selectedTitle)
+            self?.dismiss(animated: true)
         }
         
         view.addSubview(categoryTableView)
@@ -124,16 +128,11 @@ extension CategoryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CategoryTableViewCell
+        
         let categoryTitle = viewModel.categoryTitle(at: indexPath)
-        cell.textLabel?.text = categoryTitle
-        cell.backgroundColor = .secondarySystemBackground
-        if cell.textLabel?.text == viewModel.selectedCategory {
-            cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
-        }
-            
+        cell.configure(title: categoryTitle ?? "", isSelectedCategory: categoryTitle == viewModel.selectedCategory)
+
         return cell
     }
     
@@ -142,12 +141,7 @@ extension CategoryViewController: UITableViewDataSource {
 extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.accessoryType = .checkmark
-        guard let categoryTitle = viewModel.categoryTitle(at: indexPath) else { return }
-        delegate?.chooseCategory(title: categoryTitle)
-        dismiss(animated: true)
+        viewModel.didSelectCategory(at: indexPath)
     }
     
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
