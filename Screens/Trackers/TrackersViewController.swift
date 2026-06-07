@@ -70,6 +70,7 @@ final class TrackersViewController: UIViewController {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.placeholder = "Поиск"
         navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
         
         filterButton.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
         
@@ -117,7 +118,8 @@ final class TrackersViewController: UIViewController {
         self.currentDate = sender.date
         let filterWeekday = Calendar.current.component(.weekday, from: currentDate)
         guard let selectedWeekDay = WeekDay(calendarWeekday: filterWeekday) else { return }
-        trackerStore.filterTracker(by: selectedWeekDay)
+        let searchText = navigationItem.searchController?.searchBar.text ?? ""
+        trackerStore.filterTracker(by: selectedWeekDay, searchText: searchText)
         collectionView.reloadData()
         updatePlaceHolderVisibility()
         
@@ -129,9 +131,19 @@ final class TrackersViewController: UIViewController {
     
     
     private func updatePlaceHolderVisibility() {
+        let searchText = navigationItem.searchController?.searchBar.text ?? ""
+        if !searchText.isEmpty {
+            placeholderImageView.image = UIImage(resource: .searchTrackerError)
+            placeholderLabel.text = "Ничего не найдено"
+        } else {
+            placeholderImageView.image = UIImage(resource: .starPlaceholder)
+            placeholderLabel.text = "Что будем отслеживать?"
+        }
+        
         placeholderImageView.isHidden = !trackerStore.trackersIsEmpty
         placeholderLabel.isHidden = !trackerStore.trackersIsEmpty
         filterButton.isHidden = trackerStore.trackersIsEmpty
+        
     }
     
 }
@@ -159,7 +171,8 @@ extension TrackersViewController: UICollectionViewDataSource {
             name: tracker.name ?? "",
             color: UIColor(hex: tracker.color ?? "") ?? .black,
             emoji: tracker.emoji ?? "",
-            schedule: (tracker.schedule ?? "").components(separatedBy: ",").compactMap { Int($0) }.compactMap { WeekDay(rawValue: $0) }
+            schedule: (tracker.schedule ?? "").components(separatedBy: ",").compactMap { Int($0) }.compactMap { WeekDay(rawValue: $0) },
+            isPinned: tracker.isPinned
         )
         cell.configure(tracker: newTracker, isCompletedToday: isCompletedToday, completedDays: completedDays)
         
@@ -203,6 +216,65 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
          */
         return CGSize(width: collectionView.frame.width, height: 18.0)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let tracker = trackerStore.object(at: indexPath)
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let pinAction = UIAction(title: tracker.isPinned ? "Открепить" : "Закрепить") { [weak self] _ in
+                let newTracker = Tracker(
+                    id: tracker.id ?? UUID(),
+                    name: tracker.name ?? "",
+                    color: UIColor(hex: tracker.color ?? "") ?? .black,
+                    emoji: tracker.emoji ?? "",
+                    schedule: (tracker.schedule ?? "").components(separatedBy: ",").compactMap { Int($0) }.compactMap { WeekDay(rawValue: $0) },
+                    isPinned: !tracker.isPinned
+                )
+                
+                try? self?.trackerStore.updateTracker(tracker: newTracker, category: tracker.category?.title ?? "Без названия")
+                
+            }
+            let editAction = UIAction(title: "Редактировать") { [weak self] _ in
+            
+                let newTracker = Tracker(
+                    id: tracker.id ?? UUID(),
+                    name: tracker.name ?? "",
+                    color: UIColor(hex: tracker.color ?? "") ?? .black,
+                    emoji: tracker.emoji ?? "",
+                    schedule: (tracker.schedule ?? "").components(separatedBy: ",").compactMap { Int($0) }.compactMap { WeekDay(rawValue: $0) },
+                    isPinned: tracker.isPinned
+                )
+                
+                let isHabit = !newTracker.schedule.isEmpty
+                
+                let editTracker = TrackerCreationViewController(isHabit: isHabit)
+                editTracker.trackerToEdit = newTracker
+                editTracker.selectedCategory = tracker.category?.title
+                editTracker.delegate = self
+                let trackerNavController = UINavigationController(rootViewController: editTracker)
+                self?.present(trackerNavController, animated: true, completion: nil)
+            }
+            
+            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+                let alertController = UIAlertController(
+                    title: "Уверены, что хотите удалить трекер?",
+                    message: nil,
+                    preferredStyle: .actionSheet
+                )
+                
+                let delete = UIAlertAction(title: "Удалить", style: .destructive) { _ in
+                    try? self?.trackerStore.deleteTracker(at: indexPath)
+                }
+                
+                let cancel = UIAlertAction(title: "Отменить", style: .cancel)
+                
+                alertController.addAction(delete)
+                alertController.addAction(cancel)
+                
+                self?.present(alertController, animated: true)
+            }
+            return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
+        }
+    }
 }
 
 extension TrackersViewController: TrackerCollectionViewCellDelegate {
@@ -236,6 +308,22 @@ extension TrackersViewController: TrackerCreationDelegate {
         self.dismiss(animated: true)
     }
     
+    func updateTracker(id: UUID, trackerName: String, schedule: [Int], emoji: String?, color: UIColor?, category: String?) {
+        let realSchedule = schedule.compactMap { WeekDay(scheduleIndex: $0) }
+        
+        let tracker = Tracker(
+            id: id,
+            name: trackerName,
+            color: color ?? .black,
+            emoji: emoji ?? "❓",
+            schedule: realSchedule
+            )
+        
+        try? trackerStore.updateTracker(tracker: tracker, category: category ?? "Без названия")
+        updatePlaceHolderVisibility()
+        self.dismiss(animated: true)
+    }
+    
     
 }
 
@@ -248,11 +336,26 @@ extension TrackersViewController: TrackerStoreDelegate {
             let deletedSections = update.deletedSections
             let insertedCells = update.insertedCells
             let deletedCells = update.deletedCells
+            let updatedCells = update.updatedCells
             
             collectionView.insertItems(at: insertedCells)
             collectionView.deleteItems(at: deletedCells)
             collectionView.insertSections(insertedSections)
             collectionView.deleteSections(deletedSections)
+            collectionView.reloadItems(at: updatedCells)
         }
     }
+}
+
+extension TrackersViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let text = searchController.searchBar.text
+        let filterWeekday = Calendar.current.component(.weekday, from: currentDate)
+        guard let selectedWeekDay = WeekDay(calendarWeekday: filterWeekday) else { return }
+        trackerStore.filterTracker(by: selectedWeekDay, searchText: text ?? "")
+        collectionView.reloadData()
+        updatePlaceHolderVisibility()
+    }
+    
+    
 }

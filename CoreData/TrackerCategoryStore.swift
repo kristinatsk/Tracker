@@ -14,6 +14,8 @@ protocol TrackerCategoryStoreProtocol {
     var numberOfCategories: Int { get }
     func categoryTitle(at indexPath: IndexPath) -> String?
     func addCategory(with title: String) throws
+    func deleteCategory(at indexPath: IndexPath) throws
+    func updateCategory(oldTitle: String, newTitle: String) throws
 }
 
 final class TrackerCategoryStore: NSObject {
@@ -79,6 +81,21 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol {
         let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
         trackerCategoryCoreData.title = title
         
+        try context.save()
+    }
+    
+    func deleteCategory(at indexPath: IndexPath) throws {
+        let object = fetchedResultsController.object(at: indexPath)
+        context.delete(object)
+        try context.save()
+        
+    }
+    
+    func updateCategory(oldTitle: String, newTitle: String) throws {
+        let request = TrackerCategoryCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "%K == %@", "title", oldTitle)
+        let result = try context.fetch(request)
+        result.first?.title = newTitle
         try context.save()
     }
 }

@@ -5,6 +5,8 @@ final class CategoryCreationViewController: UIViewController {
     
     private let trackerCategoryCoreStore = TrackerCategoryStore()
     
+    var categoryToEdit: String?
+    
     private lazy var categoryTitleTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = UIColor(resource: .tableViewBackground)
@@ -32,9 +34,13 @@ final class CategoryCreationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Новая категория"
-        
-        
+        if let editTitle = categoryToEdit {
+            title = "Редактирование категории"
+            categoryTitleTextField.text = categoryToEdit
+            textChanged()
+        } else {
+            title = "Новая категория"
+        }
         
         categoryTitleTextField.addTarget(self, action: #selector(textChanged), for: .editingChanged)
         createCategoryButton.addTarget(self, action: #selector(createCategoryButtonTapped), for: .touchUpInside)
@@ -68,8 +74,12 @@ final class CategoryCreationViewController: UIViewController {
     }
     
     @objc private func createCategoryButtonTapped() {
-        guard let categoryTitle = categoryTitleTextField.text else { return }
-        try? trackerCategoryCoreStore.addCategory(with: categoryTitle)
+        guard let newCategoryTitle = categoryTitleTextField.text else { return }
+        if let oldCategoryTitle = categoryToEdit {
+            try? trackerCategoryCoreStore.updateCategory(oldTitle: oldCategoryTitle, newTitle: newCategoryTitle)
+        } else {
+            try? trackerCategoryCoreStore.addCategory(with: newCategoryTitle)
+        }
         dismiss(animated: true)
     }
 }

@@ -2,12 +2,12 @@ import UIKit
 
 protocol TrackerCreationDelegate: AnyObject {
     func createTracker(trackerName: String, schedule: [Int], emoji: String?, color: UIColor?, category: String?)
+    func updateTracker(id: UUID, trackerName: String, schedule: [Int], emoji: String?, color: UIColor?, category: String?)
 }
 
 final class TrackerCreationViewController: UIViewController {
     weak var delegate: TrackerCreationDelegate?
     private var selectedSchedule: [Int] = []
-    private var selectedCategory: String?
     private let isHabit: Bool
     private var tableViewConstraint: NSLayoutConstraint?
     private let emojis: [String] = ["🙂", "😻", "🌺", "🐶", "❤️", "😱",
@@ -26,6 +26,8 @@ final class TrackerCreationViewController: UIViewController {
     
     private var selectedEmoji: String?
     private var selectedColor: UIColor?
+    var selectedCategory: String?
+    var trackerToEdit: Tracker?
     
     
     init(isHabit: Bool) {
@@ -180,7 +182,7 @@ final class TrackerCreationViewController: UIViewController {
         view.addSubview(buttonsStackView)
        
         
-
+        setupUIForEditing()
         
         NSLayoutConstraint.activate([
 
@@ -214,7 +216,7 @@ final class TrackerCreationViewController: UIViewController {
     }
     
     @objc private func cancelButtonTapped() {
-        self.presentingViewController?.presentingViewController?.dismiss(animated: true)
+        trackerToEdit != nil ? (self.dismiss(animated: true)) : (self.presentingViewController?.presentingViewController?.dismiss(animated: true))
     }
     
     @objc private func createButtonTapped() {
@@ -223,7 +225,11 @@ final class TrackerCreationViewController: UIViewController {
         guard let _ = selectedColor else { return }
         guard let _ = selectedCategory else { return }
         
-        delegate?.createTracker(trackerName: trackerName, schedule: selectedSchedule, emoji: selectedEmoji, color: selectedColor, category: selectedCategory)
+        if let id = trackerToEdit?.id {
+            delegate?.updateTracker(id: id, trackerName: trackerName, schedule: selectedSchedule, emoji: selectedEmoji, color: selectedColor, category: selectedCategory)
+        } else {
+            delegate?.createTracker(trackerName: trackerName, schedule: selectedSchedule, emoji: selectedEmoji, color: selectedColor, category: selectedCategory)
+        }
     }
     
     @objc private func textChanged() {
@@ -235,6 +241,33 @@ final class TrackerCreationViewController: UIViewController {
             createButton.backgroundColor = .lightGray
         }
     }
+    private func setupUIForEditing() {
+        if let trackerToEdit  {
+            selectedColor = trackerToEdit.color
+            selectedEmoji = trackerToEdit.emoji
+            trackerNameTextField.text = trackerToEdit.name
+            selectedSchedule = trackerToEdit.schedule.compactMap { WeekDay.allCases.firstIndex(of: $0) }
+            textChanged()
+            
+        }
+        
+        if let unwrappedEmoji = selectedEmoji,
+            let emojiIndex = emojis.firstIndex(of: unwrappedEmoji)
+        {
+            let indexPath = IndexPath(row: emojiIndex, section: 0)
+            emojiCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+        }
+        
+        if let unwrappedColor = selectedColor,
+           let colorIndex = colors.firstIndex(where: { $0.toHexString() == unwrappedColor.toHexString() })
+        {
+            let indexPath = IndexPath(row: colorIndex, section: 0)
+            colorsCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+        }
+        
+        createButton.setTitle("Сохранить", for: .normal)
+    }
+    
 }
 
 extension TrackerCreationViewController: UITableViewDataSource {
@@ -288,6 +321,7 @@ extension TrackerCreationViewController: UITableViewDelegate {
         let scheduleVC = ScheduleViewController()
         let scheduleNavController = UINavigationController(rootViewController: scheduleVC)
         scheduleVC.delegate = self
+        scheduleVC.selectedWeekDays = self.selectedSchedule
         
         let newCategoryVC = CategoryViewController()
         let categoryNavController = UINavigationController(rootViewController: newCategoryVC)
@@ -342,7 +376,7 @@ extension TrackerCreationViewController: UICollectionViewDataSource {
         if collectionView == emojiCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emojiCell", for: indexPath) as! EmojiCollectionViewCell
             let emoji = emojis[indexPath.row]
-            cell.backgroundColor = .clear
+            selectedEmoji == emoji ? (cell.backgroundColor = .systemGray6) : (cell.backgroundColor = .clear)
             cell.layer.cornerRadius = 16
             cell.configure(emoji: emoji)
             return cell
@@ -350,6 +384,13 @@ extension TrackerCreationViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "colorsCell", for: indexPath) as! ColorCollectionViewCell
             let color = colors[indexPath.row]
             cell.configure(color: color)
+            if selectedColor?.toHexString() == color.toHexString() {
+                cell.layer.borderWidth = 3
+                cell.layer.borderColor = color.withAlphaComponent(0.3).cgColor
+            } else {
+                cell.layer.borderWidth = 0
+                cell.layer.borderColor = .none
+            }
             cell.layer.cornerRadius = 12
             return cell
         }

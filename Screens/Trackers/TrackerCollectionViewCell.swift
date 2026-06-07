@@ -51,6 +51,21 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.color = .black
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
+    private lazy var pinImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(resource: .pinIcon)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,6 +77,8 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         cardView.addSubview(titleLabel)
         contentView.addSubview(daysLabel)
         contentView.addSubview(addCardButton)
+        contentView.addSubview(activityIndicator)
+        cardView.addSubview(pinImageView)
         
         NSLayoutConstraint.activate([
             cardView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -83,6 +100,14 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
             
             daysLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             daysLabel.centerYAnchor.constraint(equalTo: addCardButton.centerYAnchor),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: addCardButton.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: addCardButton.centerYAnchor),
+            
+            pinImageView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -4),
+            pinImageView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 12),
+            pinImageView.widthAnchor.constraint(equalToConstant: 24),
+            pinImageView.heightAnchor.constraint(equalToConstant: 24)
         
         ])
         
@@ -108,10 +133,27 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
             addCardButton.setImage(UIImage(systemName: "plus"), for: .normal)
             addCardButton.alpha = 1.0
         }
+        hideLoader()
+        
+        pinImageView.isHidden = !tracker.isPinned
     }
+    
+    func showLoader() {
+        addCardButton.isHidden = true
+        activityIndicator.startAnimating()
+    }
+    
+    func hideLoader() {
+        activityIndicator.stopAnimating()
+        addCardButton.isHidden = false
+    }
+    
     @objc private func plusButtonTapped() {
         guard let trackerID else { return }
-        delegate?.completeTracker(id: trackerID)
+        showLoader()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.delegate?.completeTracker(id: trackerID)
+        }
     }
     func formatDaysString(count: Int) -> String {
         let lastDigit = count % 10

@@ -76,6 +76,7 @@ extension ScheduleViewController: UITableViewDataSource {
         daySwitch.tag = indexPath.row
         daySwitch.onTintColor = .systemBlue
         daySwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
+        daySwitch.isOn = selectedWeekDays.contains(indexPath.row)
         cell.accessoryView = daySwitch
         cell.backgroundColor = UIColor(resource: .tableViewBackground)
         if indexPath.row == WeekDay.allCases.count - 1 {
