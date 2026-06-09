@@ -21,7 +21,7 @@ final class TrackersViewController: UIViewController {
     
     private lazy var placeholderLabel: UILabel = {
         let label = UILabel()
-        label.text = "Что будем отслеживать?"
+        label.text = NSLocalizedString("what_track", comment: "")
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.textColor = .black
         label.textAlignment = .center
@@ -31,7 +31,7 @@ final class TrackersViewController: UIViewController {
     
     private lazy var filterButton: UIButton = {
        let button = UIButton()
-        button.setTitle("Фильтры", for: .normal)
+        button.setTitle(NSLocalizedString("filters", comment: ""), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 16
         button.backgroundColor = UIColor(resource: .filterButton)
@@ -44,7 +44,7 @@ final class TrackersViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        title = "Трекеры"
+        title = NSLocalizedString("trackers", comment: "")
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .white
         
@@ -68,7 +68,7 @@ final class TrackersViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         
         let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "Поиск"
+        searchController.searchBar.placeholder = NSLocalizedString("search", comment: "")
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
         
@@ -134,10 +134,10 @@ final class TrackersViewController: UIViewController {
         let searchText = navigationItem.searchController?.searchBar.text ?? ""
         if !searchText.isEmpty {
             placeholderImageView.image = UIImage(resource: .searchTrackerError)
-            placeholderLabel.text = "Ничего не найдено"
+            placeholderLabel.text = NSLocalizedString("no_results", comment: "")
         } else {
             placeholderImageView.image = UIImage(resource: .starPlaceholder)
-            placeholderLabel.text = "Что будем отслеживать?"
+            placeholderLabel.text = NSLocalizedString("what_track", comment: "")
         }
         
         placeholderImageView.isHidden = !trackerStore.trackersIsEmpty
@@ -220,7 +220,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let tracker = trackerStore.object(at: indexPath)
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            let pinAction = UIAction(title: tracker.isPinned ? "Открепить" : "Закрепить") { [weak self] _ in
+            let pinAction = UIAction(title: tracker.isPinned ? NSLocalizedString("unpin", comment: "") : NSLocalizedString("unpin", comment: "")) { [weak self] _ in
                 let newTracker = Tracker(
                     id: tracker.id ?? UUID(),
                     name: tracker.name ?? "",
@@ -230,10 +230,10 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                     isPinned: !tracker.isPinned
                 )
                 
-                try? self?.trackerStore.updateTracker(tracker: newTracker, category: tracker.category?.title ?? "Без названия")
+                try? self?.trackerStore.updateTracker(tracker: newTracker, category: tracker.category?.title ?? NSLocalizedString("untitle", comment: ""))
                 
             }
-            let editAction = UIAction(title: "Редактировать") { [weak self] _ in
+            let editAction = UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
             
                 let newTracker = Tracker(
                     id: tracker.id ?? UUID(),
@@ -254,18 +254,18 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                 self?.present(trackerNavController, animated: true, completion: nil)
             }
             
-            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+            let deleteAction = UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
                 let alertController = UIAlertController(
-                    title: "Уверены, что хотите удалить трекер?",
+                    title: NSLocalizedString("sure_delete_tracker", comment: ""),
                     message: nil,
                     preferredStyle: .actionSheet
                 )
                 
-                let delete = UIAlertAction(title: "Удалить", style: .destructive) { _ in
+                let delete = UIAlertAction(title: NSLocalizedString("delete", comment: ""), style: .destructive) { _ in
                     try? self?.trackerStore.deleteTracker(at: indexPath)
                 }
                 
-                let cancel = UIAlertAction(title: "Отменить", style: .cancel)
+                let cancel = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel)
                 
                 alertController.addAction(delete)
                 alertController.addAction(cancel)
@@ -302,7 +302,7 @@ extension TrackersViewController: TrackerCreationDelegate {
             emoji: emoji ?? "❓",
             schedule: realSchedule)
         
-        try? trackerStore.addTracker(tracker, category: category ?? "Без категории")
+        try? trackerStore.addTracker(tracker, category: category ?? NSLocalizedString("without_category", comment: ""))
         
         updatePlaceHolderVisibility()
         self.dismiss(animated: true)
@@ -319,7 +319,7 @@ extension TrackersViewController: TrackerCreationDelegate {
             schedule: realSchedule
             )
         
-        try? trackerStore.updateTracker(tracker: tracker, category: category ?? "Без названия")
+        try? trackerStore.updateTracker(tracker: tracker, category: category ?? NSLocalizedString("untitle", comment: ""))
         updatePlaceHolderVisibility()
         self.dismiss(animated: true)
     }

@@ -31,7 +31,7 @@ final class CategoryViewController: UIViewController {
     
     private lazy var categoryButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Добавить категорию", for: .normal)
+        button.setTitle(NSLocalizedString("add_category", comment: ""), for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
@@ -49,7 +49,7 @@ final class CategoryViewController: UIViewController {
     
     private lazy var categoryPlaceholderLabel: UILabel = {
         let label = UILabel()
-        label.text = "Привычки и события можно объединить по смыслу"
+        label.text = NSLocalizedString("group_habits", comment: "")
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.numberOfLines = 0
         label.textColor = .black
@@ -61,7 +61,7 @@ final class CategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Категория"
+        title = NSLocalizedString("category", comment: "")
         
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
@@ -148,24 +148,24 @@ extension CategoryViewController: UITableViewDelegate {
         guard let categoryTitle = viewModel.categoryTitle(at: indexPath) else { return nil }
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            let editAction = UIAction(title: "Редактировать") { [weak self] _ in
+            let editAction = UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
                 let editCategory = CategoryCreationViewController()
                 editCategory.categoryToEdit = categoryTitle
                 let categoryNavController = UINavigationController(rootViewController: editCategory)
                 self?.present(categoryNavController, animated: true, completion: nil)
             }
             
-            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+            let deleteAction = UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
                 let alertController = UIAlertController(
-                    title: "Эта категория точно не нужна?",
+                    title: NSLocalizedString("dont_need_category", comment: ""),
                     message: nil,
                     preferredStyle: .actionSheet
                     )
-                let delete = UIAlertAction(title: "Удалить", style: .destructive) { _ in
+                let delete = UIAlertAction(title: NSLocalizedString("delete", comment: ""), style: .destructive) { _ in
                     self?.viewModel.deleteCategory(at: indexPath)
                 }
                 
-                let cancel = UIAlertAction(title: "Отменить", style: .cancel)
+                let cancel = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel)
                 
                 alertController.addAction(delete)
                 alertController.addAction(cancel)

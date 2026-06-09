@@ -20,7 +20,7 @@ final class OnboardingChildViewController: UIViewController {
     
     private lazy var onboardingButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Вот это технологии!", for: .normal)
+        button.setTitle(NSLocalizedString("thats_technology", comment: ""), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .black
         button.layer.cornerRadius = 16
@@ -83,10 +83,10 @@ final class OnboardingChildViewController: UIViewController {
         
         let trackersViewController = TrackersViewController()
         let trackersNavigation = UINavigationController(rootViewController: trackersViewController)
-        trackersNavigation.tabBarItem = UITabBarItem(title: "Трекеры", image: UIImage(resource: .trackersIcon), selectedImage: nil)
+        trackersNavigation.tabBarItem = UITabBarItem(title: NSLocalizedString("trackers", comment: ""), image: UIImage(resource: .trackersIcon), selectedImage: nil)
         
         let statisticsViewController = StatisticsViewController()
-        statisticsViewController.tabBarItem = UITabBarItem(title: "Статистика", image: UIImage(resource: .statisticsIcon), selectedImage: nil)
+        statisticsViewController.tabBarItem = UITabBarItem(title: NSLocalizedString("statistics", comment: ""), image: UIImage(resource: .statisticsIcon), selectedImage: nil)
         
         tabBarController.viewControllers = [trackersNavigation, statisticsViewController]
         

@@ -44,7 +44,7 @@ final class TrackerCreationViewController: UIViewController {
         let textField = UITextField()
         textField.backgroundColor = UIColor(resource: .tableViewBackground)
         textField.layer.cornerRadius = 16
-        textField.placeholder = "Введите название трекера"
+        textField.placeholder = NSLocalizedString("enter_tracker_name", comment: "")
         textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         textField.leftView = paddingView
@@ -68,7 +68,7 @@ final class TrackerCreationViewController: UIViewController {
     
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Отменить", for: .normal)
+        button.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
         button.setTitleColor(.red, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
@@ -81,7 +81,7 @@ final class TrackerCreationViewController: UIViewController {
     
     private lazy var createButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Создать", for: .normal)
+        button.setTitle(NSLocalizedString("create", comment: ""), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
@@ -101,7 +101,7 @@ final class TrackerCreationViewController: UIViewController {
     
     private lazy var warningLabel: UILabel = {
         let label = UILabel()
-        label.text = "Ограничение 38 символов"
+        label.text = NSLocalizedString("38character_limit", comment: "")
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.textColor = UIColor(resource: .warningLabel)
         label.isHidden = true
@@ -155,7 +155,7 @@ final class TrackerCreationViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        title = self.isHabit ? "Новая привычка" : "Новое нерегулярное событие"
+        title = self.isHabit ? NSLocalizedString("new_habit", comment: "") : "new_irregular"
         
         creationTableView.dataSource = self
         creationTableView.delegate = self
@@ -265,7 +265,7 @@ final class TrackerCreationViewController: UIViewController {
             colorsCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
         }
         
-        createButton.setTitle("Сохранить", for: .normal)
+        createButton.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
     }
     
 }
@@ -279,12 +279,20 @@ extension TrackerCreationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         if indexPath.row == 1 {
-            var scheduleCell = UITableViewCell(style: .subtitle, reuseIdentifier: "Расписание")
-            scheduleCell.textLabel?.text = "Расписание"
-            let allDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
+            var scheduleCell = UITableViewCell(style: .subtitle, reuseIdentifier: NSLocalizedString("schedule", comment: ""))
+            scheduleCell.textLabel?.text = NSLocalizedString("schedule", comment: "")
+            let allDays = [
+                NSLocalizedString("mon", comment: ""),
+                NSLocalizedString("tue", comment: ""),
+                NSLocalizedString("wed", comment: ""),
+                NSLocalizedString("thu", comment: ""),
+                NSLocalizedString("fri", comment: ""),
+                NSLocalizedString("sat", comment: ""),
+                NSLocalizedString("sun", comment: "")
+            ]
             var resultString = ""
             if selectedSchedule.count == 7 {
-                resultString = "Каждый день"
+                resultString = NSLocalizedString("every_day", comment: "")
             } else {
                 resultString = selectedSchedule.map { allDays[$0] }.joined(separator: ", ")
 
@@ -298,8 +306,8 @@ extension TrackerCreationViewController: UITableViewDataSource {
             scheduleCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 400)
             return scheduleCell
         } else if indexPath.row == 0 {
-            var categoryCell = UITableViewCell(style: .subtitle, reuseIdentifier: "Категория")
-            categoryCell.textLabel?.text = "Категория"
+            var categoryCell = UITableViewCell(style: .subtitle, reuseIdentifier: NSLocalizedString("category", comment: ""))
+            categoryCell.textLabel?.text = NSLocalizedString("category", comment: "")
             categoryCell.detailTextLabel?.text = selectedCategory
             categoryCell.accessoryType = .disclosureIndicator
             categoryCell.layer.masksToBounds = true
@@ -399,7 +407,7 @@ extension TrackerCreationViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! SupplementaryView
         
-        collectionView == emojiCollectionView ? (view.titleLabel.text = "Emoji") : (view.titleLabel.text = "Цвет")
+        collectionView == emojiCollectionView ? (view.titleLabel.text = "Emoji") : (view.titleLabel.text = NSLocalizedString("color", comment: ""))
         
         return view
     }

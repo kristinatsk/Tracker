@@ -224,6 +224,6 @@ extension TrackerStore: NSFetchedResultsControllerDelegate{
 
 extension TrackerCoreData {
     @objc var sectionHeader: String {
-        return self.isPinned ? "Закрепленные" : (self.category?.title ?? "Без категории")
+        return self.isPinned ? NSLocalizedString("pinned", comment: "") : (self.category?.title ?? NSLocalizedString("without_category", comment: ""))
     }
 }

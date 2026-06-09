@@ -21,7 +21,7 @@ final class CategoryCreationViewController: UIViewController {
     
     private lazy var createCategoryButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Готово", for: .normal)
+        button.setTitle(NSLocalizedString("done", comment: ""), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
@@ -35,11 +35,11 @@ final class CategoryCreationViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         if let editTitle = categoryToEdit {
-            title = "Редактирование категории"
+            title = NSLocalizedString("edit_category", comment: "")
             categoryTitleTextField.text = categoryToEdit
             textChanged()
         } else {
-            title = "Новая категория"
+            title = NSLocalizedString("new_category", comment: "")
         }
         
         categoryTitleTextField.addTarget(self, action: #selector(textChanged), for: .editingChanged)

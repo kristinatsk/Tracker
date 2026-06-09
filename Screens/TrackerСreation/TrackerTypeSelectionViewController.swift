@@ -5,7 +5,7 @@ final class TrackerTypeSelectionViewController: UIViewController {
     
     private lazy var typeSelectionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Создание трекера"
+        label.text = NSLocalizedString("tracker_creation", comment: "")
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = .black
         label.textAlignment = .center
@@ -15,7 +15,7 @@ final class TrackerTypeSelectionViewController: UIViewController {
     
     private lazy var typeSelectionHabitButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Привычка", for: .normal)
+        button.setTitle(NSLocalizedString("habit", comment: ""), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
@@ -26,7 +26,7 @@ final class TrackerTypeSelectionViewController: UIViewController {
     
     private lazy var typeSelectionIrregularButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Нерегулярное событие", for: .normal)
+        button.setTitle(NSLocalizedString("irregular", comment: ""), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
