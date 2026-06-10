@@ -23,7 +23,7 @@ final class TrackersViewController: UIViewController {
         let label = UILabel()
         label.text = NSLocalizedString("what_track", comment: "")
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .black
+        label.textColor = Colors.navigationTintColor
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -32,7 +32,7 @@ final class TrackersViewController: UIViewController {
     private lazy var filterButton: UIButton = {
        let button = UIButton()
         button.setTitle(NSLocalizedString("filters", comment: ""), for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(Colors.collectionViewBackgroundColor, for: .normal)
         button.layer.cornerRadius = 16
         button.backgroundColor = UIColor(resource: .filterButton)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
@@ -46,7 +46,7 @@ final class TrackersViewController: UIViewController {
         super.viewDidLoad()
         title = NSLocalizedString("trackers", comment: "")
         navigationController?.navigationBar.prefersLargeTitles = true
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.collectionViewBackgroundColor
         
         trackerStore.delegate = self
         
@@ -56,7 +56,7 @@ final class TrackersViewController: UIViewController {
             action: #selector(addTrackerTapped)
         )
         
-        addButton.tintColor = .black
+        addButton.tintColor = Colors.navigationTintColor
         navigationItem.leftBarButtonItem = addButton
         
         

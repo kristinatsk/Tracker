@@ -10,6 +10,9 @@
 		C170F6832FD59774009F7821 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C170F6822FD59774009F7821 /* CategoryTableViewCell.swift */; };
 		C170F6862FD74DCC009F7821 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C170F6842FD74DCC009F7821 /* Localizable.strings */; };
 		C170F68B2FD8A1E9009F7821 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = C170F6892FD8A1E9009F7821 /* Localizable.stringsdict */; };
+		C170F69B2FD9206B009F7821 /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = C170F69A2FD9206B009F7821 /* InlineSnapshotTesting */; };
+		C170F69D2FD9206B009F7821 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = C170F69C2FD9206B009F7821 /* SnapshotTesting */; };
+		C170F69F2FD9206B009F7821 /* SnapshotTestingCustomDump in Frameworks */ = {isa = PBXBuildFile; productRef = C170F69E2FD9206B009F7821 /* SnapshotTestingCustomDump */; };
 		C17DEA982F83530B00F6A491 /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17DEA972F83530B00F6A491 /* ColorCollectionViewCell.swift */; };
 		C18089842FBD5447005F8A06 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18089832FBD5433005F8A06 /* CategoryViewController.swift */; };
 		C18089882FBEB5B4005F8A06 /* CategoryCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18089872FBEB58B005F8A06 /* CategoryCreationViewController.swift */; };
@@ -26,11 +29,22 @@
 		C19C34252FCE1D97008E3832 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19C34242FCE1D97008E3832 /* CategoryViewModel.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C170F6942FD91F16009F7821 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C10602792F5D67BD00AD4C5E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C10602802F5D67BD00AD4C5E;
+			remoteInfo = Tracker;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		C10602812F5D67BD00AD4C5E /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Tracker.app; path = "/Users/kristinakostenko/Documents/Documents - Kristina’s MacBook Air/Programming/Yandex Practicum/projects/Tracker/build/Debug-iphoneos/Tracker.app"; sourceTree = "<absolute>"; };
 		C170F6822FD59774009F7821 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		C170F6852FD74DCC009F7821 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C170F68A2FD8A1E9009F7821 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		C170F6902FD91F16009F7821 /* TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C17DEA972F83530B00F6A491 /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		C18089832FBD5433005F8A06 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		C18089872FBEB58B005F8A06 /* CategoryCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCreationViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +73,11 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		C170F6912FD91F16009F7821 /* TrackerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TrackerTests;
+			sourceTree = "<group>";
+		};
 		C181589A2F60536B0017D503 /* Models */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Models;
@@ -84,6 +103,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C170F68D2FD91F16009F7821 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C170F69F2FD9206B009F7821 /* SnapshotTestingCustomDump in Frameworks */,
+				C170F69B2FD9206B009F7821 /* InlineSnapshotTesting in Frameworks */,
+				C170F69D2FD9206B009F7821 /* SnapshotTesting in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -96,6 +125,8 @@
 				C181589A2F60536B0017D503 /* Models */,
 				C18A1FBF2F72FA9D00F1591B /* Screens */,
 				C18A1FC12F72FAC600F1591B /* Resources */,
+				C170F6902FD91F16009F7821 /* TrackerTests.xctest */,
+				C170F6912FD91F16009F7821 /* TrackerTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -193,6 +224,32 @@
 			productReference = C10602812F5D67BD00AD4C5E /* Tracker.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C170F68F2FD91F16009F7821 /* TrackerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C170F6962FD91F16009F7821 /* Build configuration list for PBXNativeTarget "TrackerTests" */;
+			buildPhases = (
+				C170F68C2FD91F16009F7821 /* Sources */,
+				C170F68D2FD91F16009F7821 /* Frameworks */,
+				C170F68E2FD91F16009F7821 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C170F6952FD91F16009F7821 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C170F6912FD91F16009F7821 /* TrackerTests */,
+			);
+			name = TrackerTests;
+			packageProductDependencies = (
+				C170F69A2FD9206B009F7821 /* InlineSnapshotTesting */,
+				C170F69C2FD9206B009F7821 /* SnapshotTesting */,
+				C170F69E2FD9206B009F7821 /* SnapshotTestingCustomDump */,
+			);
+			productName = TrackerTests;
+			productReference = C170F6902FD91F16009F7821 /* TrackerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -200,11 +257,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2630;
+				LastSwiftUpdateCheck = 2650;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					C10602802F5D67BD00AD4C5E = {
 						CreatedOnToolsVersion = 26.3;
+					};
+					C170F68F2FD91F16009F7821 = {
+						CreatedOnToolsVersion = 26.5;
+						TestTargetID = C10602802F5D67BD00AD4C5E;
 					};
 				};
 			};
@@ -217,12 +278,16 @@
 			);
 			mainGroup = C10602782F5D67BD00AD4C5E;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C170F6992FD9206B009F7821 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C10602782F5D67BD00AD4C5E;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				C10602802F5D67BD00AD4C5E /* Tracker */,
+				C170F68F2FD91F16009F7821 /* TrackerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -236,6 +301,13 @@
 				C170F68B2FD8A1E9009F7821 /* Localizable.stringsdict in Resources */,
 				C170F6862FD74DCC009F7821 /* Localizable.strings in Resources */,
 				C18A1F402F6F910600F1591B /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C170F68E2FD91F16009F7821 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,7 +334,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C170F68C2FD91F16009F7821 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C170F6952FD91F16009F7821 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C10602802F5D67BD00AD4C5E /* Tracker */;
+			targetProxy = C170F6942FD91F16009F7821 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C170F6842FD74DCC009F7821 /* Localizable.strings */ = {
@@ -475,6 +562,50 @@
 			};
 			name = Release;
 		};
+		C170F6972FD91F16009F7821 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P5XGCHS5UM;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kristinatsk.TrackerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tracker";
+			};
+			name = Debug;
+		};
+		C170F6982FD91F16009F7821 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P5XGCHS5UM;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kristinatsk.TrackerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tracker";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -496,7 +627,45 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		C170F6962FD91F16009F7821 /* Build configuration list for PBXNativeTarget "TrackerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C170F6972FD91F16009F7821 /* Debug */,
+				C170F6982FD91F16009F7821 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C170F6992FD9206B009F7821 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.19.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C170F69A2FD9206B009F7821 /* InlineSnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C170F6992FD9206B009F7821 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = InlineSnapshotTesting;
+		};
+		C170F69C2FD9206B009F7821 /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C170F6992FD9206B009F7821 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
+		C170F69E2FD9206B009F7821 /* SnapshotTestingCustomDump */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C170F6992FD9206B009F7821 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTestingCustomDump;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C10602792F5D67BD00AD4C5E /* Project object */;
 }

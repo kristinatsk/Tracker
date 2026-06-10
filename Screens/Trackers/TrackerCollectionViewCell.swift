@@ -37,7 +37,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "0 дней"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .black
+        label.textColor = Colors.navigationTintColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
