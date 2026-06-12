@@ -27,12 +27,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             let trackersViewController = TrackersViewController()
             let trackersNavigation = UINavigationController(rootViewController: trackersViewController)
+          
             trackersNavigation.tabBarItem = UITabBarItem(title: NSLocalizedString("trackers", comment: ""), image: UIImage(resource: .trackersIcon), selectedImage: nil)
             
             let statisticsViewController = StatisticsViewController()
-            statisticsViewController.tabBarItem = UITabBarItem(title: NSLocalizedString("statistics", comment: ""), image: UIImage(resource: .statisticsIcon), selectedImage: nil)
+            let statisticsNavigation = UINavigationController(rootViewController: statisticsViewController)
+            statisticsNavigation.tabBarItem = UITabBarItem(title: NSLocalizedString("statistics", comment: ""), image: UIImage(resource: .statisticsIcon), selectedImage: nil)
             
-            tabBarController.viewControllers = [trackersNavigation, statisticsViewController]
+            tabBarController.viewControllers = [trackersNavigation, statisticsNavigation]
             
         return tabBarController
         

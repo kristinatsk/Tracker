@@ -15,6 +15,7 @@ protocol TrackerRecordStoreProtocol {
     func isCompletedToday(_ date: Date, id: UUID) -> Bool
     func addRecord(_ id: UUID, date: Date) throws
     func deleteRecord(id: UUID, date: Date) throws
+    var totalCompletedTrackers: Int { get }
 }
 
 final class TrackerRecordStore: NSObject {
@@ -64,6 +65,10 @@ final class TrackerRecordStore: NSObject {
 }
 
 extension TrackerRecordStore: TrackerRecordStoreProtocol {
+    var totalCompletedTrackers: Int {
+        fetchedResultsController.fetchedObjects?.count ?? 0
+    }
+    
     func countCompletedDays(_ id: UUID) -> Int {
         let idRequest = TrackerRecordCoreData.fetchRequest()
         idRequest.predicate = NSPredicate(format: "%K == %@", "id", id as NSUUID)
@@ -94,6 +99,7 @@ extension TrackerRecordStore: TrackerRecordStoreProtocol {
         }
         try context.save()
     }
+    
 }
 
 // MARK: - NSFetchedResultsControllerDelegate
