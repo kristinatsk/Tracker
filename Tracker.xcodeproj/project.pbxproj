@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C16683602FDA7AEA00924EC4 /* AppMetricaCore in Frameworks */ = {isa = PBXBuildFile; productRef = C166835F2FDA7AEA00924EC4 /* AppMetricaCore */; };
 		C170F6832FD59774009F7821 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C170F6822FD59774009F7821 /* CategoryTableViewCell.swift */; };
 		C170F6862FD74DCC009F7821 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C170F6842FD74DCC009F7821 /* Localizable.strings */; };
 		C170F68B2FD8A1E9009F7821 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = C170F6892FD8A1E9009F7821 /* Localizable.stringsdict */; };
@@ -40,7 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C10602812F5D67BD00AD4C5E /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Tracker.app; path = "/Users/kristinakostenko/Documents/Documents - Kristina’s MacBook Air/Programming/Yandex Practicum/projects/Tracker/build/Debug-iphoneos/Tracker.app"; sourceTree = "<absolute>"; };
+		C16683342FDA743700924EC4 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C170F6822FD59774009F7821 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		C170F6852FD74DCC009F7821 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C170F68A2FD8A1E9009F7821 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
@@ -100,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C16683602FDA7AEA00924EC4 /* AppMetricaCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +129,7 @@
 				C18A1FC12F72FAC600F1591B /* Resources */,
 				C170F6902FD91F16009F7821 /* TrackerTests.xctest */,
 				C170F6912FD91F16009F7821 /* TrackerTests */,
+				C16683342FDA743700924EC4 /* Tracker.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -219,9 +222,10 @@
 			);
 			name = Tracker;
 			packageProductDependencies = (
+				C166835F2FDA7AEA00924EC4 /* AppMetricaCore */,
 			);
 			productName = Tracker;
-			productReference = C10602812F5D67BD00AD4C5E /* Tracker.app */;
+			productReference = C16683342FDA743700924EC4 /* Tracker.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C170F68F2FD91F16009F7821 /* TrackerTests */ = {
@@ -280,6 +284,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				C170F6992FD9206B009F7821 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				C166835E2FDA7AEA00924EC4 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C10602782F5D67BD00AD4C5E;
@@ -639,6 +644,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		C166835E2FDA7AEA00924EC4 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/appmetrica/appmetrica-sdk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.3.0;
+			};
+		};
 		C170F6992FD9206B009F7821 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
@@ -650,6 +663,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C166835F2FDA7AEA00924EC4 /* AppMetricaCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C166835E2FDA7AEA00924EC4 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */;
+			productName = AppMetricaCore;
+		};
 		C170F69A2FD9206B009F7821 /* InlineSnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C170F6992FD9206B009F7821 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
