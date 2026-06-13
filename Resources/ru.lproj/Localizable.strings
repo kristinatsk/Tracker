@@ -1,10 +1,10 @@
-"trackers" = "Trackers";
-"statistics" = "Statistics";
-"pinned" = "Pinned";
-"without_category" = "Uncategorized";
-"monday" = "Monday";
-"tuesday" = "Teusday";
-"wednesday"= "Wednesday";
+"trackers" = "Трекеры";
+"statistics" = "Статистика";
+"pinned" = "Закрепленные";
+"without_category" = "Без категории";
+"monday" = "Понедельник";
+"tuesday" = "Вторник";
+"wednesday"= "Среда";
 "thursday" = "Четверг";
 "friday" = "Пятница";
 "saturday" = "Суббота";

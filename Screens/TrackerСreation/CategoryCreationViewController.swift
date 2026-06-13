@@ -33,7 +33,7 @@ final class CategoryCreationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.collectionViewBackgroundColor
         if let editTitle = categoryToEdit {
             title = NSLocalizedString("edit_category", comment: "")
             categoryTitleTextField.text = categoryToEdit

@@ -8,6 +8,7 @@ final class TrackersViewController: UIViewController {
     
     private let trackerStore = TrackerStore()
     private let trackerRecordStore = TrackerRecordStore()
+    private var currentFilter = NSLocalizedString("all_trackers", comment: "")
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: LeftAlignedCollectionViewFlowLayout())
     
@@ -127,7 +128,10 @@ final class TrackersViewController: UIViewController {
         let filterWeekday = Calendar.current.component(.weekday, from: currentDate)
         guard let selectedWeekDay = WeekDay(calendarWeekday: filterWeekday) else { return }
         let searchText = navigationItem.searchController?.searchBar.text ?? ""
-        trackerStore.filterTracker(by: selectedWeekDay, searchText: searchText)
+        
+        let startOfDay = Calendar.current.startOfDay(for: currentDate)
+        let completedIds = trackerRecordStore.completedTrackers(for: startOfDay)
+        trackerStore.filterTracker(by: selectedWeekDay, searchText: searchText, currentFilter: self.currentFilter, trackers: completedIds)
         collectionView.reloadData()
         updatePlaceHolderVisibility()
         
@@ -135,6 +139,10 @@ final class TrackersViewController: UIViewController {
     
     @objc private func filterButtonTapped() {
         AnalyticsService.report(event: "click", params: ["screen" : "Main", "item" : "filter"])
+        let filterSelectionVC = FiltersViewController()
+        filterSelectionVC.delegate = self
+        filterSelectionVC.selectedFilter = self.currentFilter
+        present(filterSelectionVC, animated: true)
     }
     
     
@@ -150,7 +158,7 @@ final class TrackersViewController: UIViewController {
         
         placeholderImageView.isHidden = !trackerStore.trackersIsEmpty
         placeholderLabel.isHidden = !trackerStore.trackersIsEmpty
-        filterButton.isHidden = trackerStore.trackersIsEmpty
+        filterButton.isHidden = trackerStore.trackersIsEmpty && currentFilter == NSLocalizedString("all_trackers", comment: "")
         
     }
     
@@ -296,7 +304,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
         } else {
             try? trackerRecordStore.addRecord(id, date: startOfDay)
         }
-        collectionView.reloadData()
+        datePickerValueChanged(datePicker)
     }
 }
 
@@ -333,8 +341,17 @@ extension TrackersViewController: TrackerCreationDelegate {
         updatePlaceHolderVisibility()
         self.dismiss(animated: true)
     }
-    
-    
+}
+
+extension TrackersViewController: FiltersViewControllerDelegate {
+    func chooseFilter(title: String) {
+        self.currentFilter = title
+        if title == NSLocalizedString("today_trackers", comment: "") {
+            datePicker.date = Date()
+            self.currentDate = Date()
+        }
+        datePickerValueChanged(datePicker)
+    }
 }
 
 // MARK: - TrackerStoreDelegate
@@ -362,7 +379,9 @@ extension TrackersViewController: UISearchResultsUpdating {
         let text = searchController.searchBar.text
         let filterWeekday = Calendar.current.component(.weekday, from: currentDate)
         guard let selectedWeekDay = WeekDay(calendarWeekday: filterWeekday) else { return }
-        trackerStore.filterTracker(by: selectedWeekDay, searchText: text ?? "")
+        let startOfDay = Calendar.current.startOfDay(for: currentDate)
+        let completedIds = trackerRecordStore.completedTrackers(for: startOfDay)
+        trackerStore.filterTracker(by: selectedWeekDay, searchText: text ?? "", currentFilter: self.currentFilter, trackers: completedIds)
         collectionView.reloadData()
         updatePlaceHolderVisibility()
     }
