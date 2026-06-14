@@ -10,11 +10,10 @@
 		C16683602FDA7AEA00924EC4 /* AppMetricaCore in Frameworks */ = {isa = PBXBuildFile; productRef = C166835F2FDA7AEA00924EC4 /* AppMetricaCore */; };
 		C16683642FDC3FF000924EC4 /* StatisticsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16683632FDC3FF000924EC4 /* StatisticsCardView.swift */; };
 		C170F6832FD59774009F7821 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C170F6822FD59774009F7821 /* CategoryTableViewCell.swift */; };
-		C170F6862FD74DCC009F7821 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C170F6842FD74DCC009F7821 /* Localizable.strings */; };
-		C170F68B2FD8A1E9009F7821 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = C170F6892FD8A1E9009F7821 /* Localizable.stringsdict */; };
 		C170F69B2FD9206B009F7821 /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = C170F69A2FD9206B009F7821 /* InlineSnapshotTesting */; };
 		C170F69D2FD9206B009F7821 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = C170F69C2FD9206B009F7821 /* SnapshotTesting */; };
 		C170F69F2FD9206B009F7821 /* SnapshotTestingCustomDump in Frameworks */ = {isa = PBXBuildFile; productRef = C170F69E2FD9206B009F7821 /* SnapshotTestingCustomDump */; };
+		C17BFB792FDE9B6400A3635F /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C17BFB782FDE9B6400A3635F /* Localizable.xcstrings */; };
 		C17DEA982F83530B00F6A491 /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17DEA972F83530B00F6A491 /* ColorCollectionViewCell.swift */; };
 		C18089842FBD5447005F8A06 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18089832FBD5433005F8A06 /* CategoryViewController.swift */; };
 		C18089882FBEB5B4005F8A06 /* CategoryCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18089872FBEB58B005F8A06 /* CategoryCreationViewController.swift */; };
@@ -44,12 +43,9 @@
 /* Begin PBXFileReference section */
 		C16683342FDA743700924EC4 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C16683632FDC3FF000924EC4 /* StatisticsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCardView.swift; sourceTree = "<group>"; };
-		C1706FB42FDE1FCA005FAEAC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		C1706FB52FDE1FCA005FAEAC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		C170F6822FD59774009F7821 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
-		C170F6852FD74DCC009F7821 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		C170F68A2FD8A1E9009F7821 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		C170F6902FD91F16009F7821 /* TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C17BFB782FDE9B6400A3635F /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		C17DEA972F83530B00F6A491 /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		C18089832FBD5433005F8A06 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		C18089872FBEB58B005F8A06 /* CategoryCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCreationViewController.swift; sourceTree = "<group>"; };
@@ -170,8 +166,7 @@
 				C18A1F322F6F910600F1591B /* Assets.xcassets */,
 				C18A1F332F6F910600F1591B /* Info.plist */,
 				C18A1F342F6F910600F1591B /* LaunchScreen.storyboard */,
-				C170F6842FD74DCC009F7821 /* Localizable.strings */,
-				C170F6892FD8A1E9009F7821 /* Localizable.stringsdict */,
+				C17BFB782FDE9B6400A3635F /* Localizable.xcstrings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -316,8 +311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C18A1F3E2F6F910600F1591B /* Assets.xcassets in Resources */,
-				C170F68B2FD8A1E9009F7821 /* Localizable.stringsdict in Resources */,
-				C170F6862FD74DCC009F7821 /* Localizable.strings in Resources */,
+				C17BFB792FDE9B6400A3635F /* Localizable.xcstrings in Resources */,
 				C18A1F402F6F910600F1591B /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,27 +363,6 @@
 			targetProxy = C170F6942FD91F16009F7821 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		C170F6842FD74DCC009F7821 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C170F6852FD74DCC009F7821 /* en */,
-				C1706FB42FDE1FCA005FAEAC /* ru */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		C170F6892FD8A1E9009F7821 /* Localizable.stringsdict */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C170F68A2FD8A1E9009F7821 /* en */,
-				C1706FB52FDE1FCA005FAEAC /* ru */,
-			);
-			name = Localizable.stringsdict;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C10602952F5D67BE00AD4C5E /* Debug */ = {
@@ -524,6 +497,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -581,6 +555,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
