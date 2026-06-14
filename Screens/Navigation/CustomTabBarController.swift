@@ -12,9 +12,6 @@ final class CustomTabBarController: UITabBarController {
     private func setupAppearance() {
         let appearance = makeTabBarAppearance()
         tabBar.standardAppearance = appearance
-        tabBar.layer.borderWidth = 0.5
-        tabBar.layer.borderColor = UIColor.lightGray.cgColor
-        
         
         tabBar.tintColor = .systemBlue
         tabBar.unselectedItemTintColor = .systemGray

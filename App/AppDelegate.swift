@@ -1,5 +1,6 @@
 import UIKit
 import CoreData
+import AppMetricaCore
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         setupWindow()
+        AnalyticsService.activate()
         return true
     }
 
@@ -86,7 +88,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = UINavigationController(rootViewController: viewController)
 
         navigationController.tabBarItem = UITabBarItem(
-            title: "Трекеры",
+            title: NSLocalizedString("trackers", comment: ""),
             image: UIImage(resource: .trackersIcon),
             selectedImage: UIImage(resource: .trackersIcon)
         )
@@ -98,7 +100,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         let viewController = StatisticsViewController()
 
         viewController.tabBarItem = UITabBarItem(
-            title: "Статистика",
+            title: NSLocalizedString("statistics", comment: ""),
             image: UIImage(resource: .statisticsIcon),
             selectedImage: UIImage(resource: .statisticsIcon)
         )

@@ -21,8 +21,8 @@ final class CategoryCreationViewController: UIViewController {
     
     private lazy var createCategoryButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Готово", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitle(NSLocalizedString("done", comment: ""), for: .normal)
+        button.setTitleColor(Colors.collectionViewBackgroundColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
         button.backgroundColor = .lightGray
@@ -33,13 +33,13 @@ final class CategoryCreationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.collectionViewBackgroundColor
         if let editTitle = categoryToEdit {
-            title = "Редактирование категории"
+            title = NSLocalizedString("edit_category", comment: "")
             categoryTitleTextField.text = categoryToEdit
             textChanged()
         } else {
-            title = "Новая категория"
+            title = NSLocalizedString("new_category", comment: "")
         }
         
         categoryTitleTextField.addTarget(self, action: #selector(textChanged), for: .editingChanged)
@@ -66,7 +66,7 @@ final class CategoryCreationViewController: UIViewController {
     @objc private func textChanged() {
         if let text = categoryTitleTextField.text , !text.isEmpty {
             createCategoryButton.isEnabled = true
-            createCategoryButton.backgroundColor = .black
+            createCategoryButton.backgroundColor = Colors.navigationTintColor
         } else {
             createCategoryButton.isEnabled = false
             createCategoryButton.backgroundColor = .lightGray

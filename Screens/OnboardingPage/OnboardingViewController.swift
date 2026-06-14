@@ -6,13 +6,13 @@ final class OnboardingViewController: UIPageViewController, UIPageViewController
         
         let bluePage = OnboardingChildViewController(
             image: UIImage(resource: .blueOnboarding),
-            text: "Отслеживайте только то, что хотите"
+            text: NSLocalizedString("track_what_want", comment: "")
         )
         
         
         let redPage = OnboardingChildViewController(
             image: UIImage(resource: .redOnboarding),
-            text: "Даже если это не литры воды и йога"
+            text: NSLocalizedString("not_water_and_yoga", comment: "")
         )
         
         return [bluePage, redPage]

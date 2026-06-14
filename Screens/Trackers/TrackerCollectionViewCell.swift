@@ -25,9 +25,9 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Поливать растения"
+        label.text = NSLocalizedString("water_plants", comment: "")
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .white
+        label.textColor = Colors.navigationTintColor
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -37,7 +37,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "0 дней"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .black
+        label.textColor = Colors.navigationTintColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -47,7 +47,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.layer.cornerRadius = 17
-        button.tintColor = .white
+        button.tintColor = Colors.collectionViewBackgroundColor
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -124,7 +124,8 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         titleLabel.text = tracker.name
         emojiLabel.text = tracker.emoji
         
-        daysLabel.text = formatDaysString(count: completedDays)
+        let daysString = String.localizedStringWithFormat(NSLocalizedString("daysCount", comment: ""), completedDays)
+        daysLabel.text = daysString
         
         if isCompletedToday {
             addCardButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
@@ -155,22 +156,4 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
             self.delegate?.completeTracker(id: trackerID)
         }
     }
-    func formatDaysString(count: Int) -> String {
-        let lastDigit = count % 10
-        let lastTwoDigits = count % 100
-        
-        if (11...14).contains(lastTwoDigits) {
-            return "\(count) дней"
-        }
-        
-        switch lastDigit {
-        case 1:
-            return "\(count) день"
-        case 2, 3, 4:
-            return "\(count) дня"
-        default:
-            return "\(count) дней"
-        }
-    }
-    
 }

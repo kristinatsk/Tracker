@@ -25,11 +25,11 @@ final class ScheduleViewController: UIViewController {
     
     private lazy var scheduleDoneButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Готово", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitle(NSLocalizedString("done", comment: ""), for: .normal)
+        button.setTitleColor(Colors.collectionViewBackgroundColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
-        button.backgroundColor = .black
+        button.backgroundColor = Colors.navigationTintColor
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -37,8 +37,8 @@ final class ScheduleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-        title = "Расписание"
+        view.backgroundColor = Colors.collectionViewBackgroundColor
+        title = NSLocalizedString("schedule", comment: "")
         
         view.addSubview(scheduleTableView)
         view.addSubview(scheduleDoneButton)

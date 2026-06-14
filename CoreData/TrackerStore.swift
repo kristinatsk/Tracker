@@ -21,7 +21,7 @@ protocol TrackerStoreProtocol {
     func addTracker(_ tracker: Tracker, category: String) throws
     func deleteTracker(at indexPath: IndexPath) throws
     func headerTitle(for section: Int) -> String?
-    func filterTracker(by day: WeekDay, searchText: String)
+    func filterTracker(by day: WeekDay, searchText: String, currentFilter: String, trackers: [UUID])
     func updateTracker(tracker: Tracker, category: String) throws
     
 }
@@ -119,17 +119,21 @@ extension TrackerStore: TrackerStoreProtocol {
         fetchedResultsController.sections?[section].name
     }
     
-    func filterTracker(by day: WeekDay, searchText: String = "") {
+    func filterTracker(by day: WeekDay, searchText: String = "", currentFilter: String, trackers: [UUID]) {
         
         let dayPredicate = NSPredicate(format: "%K CONTAINS %@", #keyPath(TrackerCoreData.schedule), String(day.rawValue))
-        if searchText.isEmpty {
-            fetchedResultsController.fetchRequest.predicate = dayPredicate
-        } else {
-            let textPredicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(TrackerCoreData.name), searchText)
-            
-            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [dayPredicate, textPredicate])
-            fetchedResultsController.fetchRequest.predicate = compoundPredicate
-        }
+        var predicates = [dayPredicate]
+        let textPredicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(TrackerCoreData.name), searchText)
+        if !searchText.isEmpty { predicates.append(textPredicate) }
+        let completedPredicate = NSPredicate(format: "id IN %@", trackers)
+        let uncompletedPredicate = NSPredicate(format: "NOT (id IN %@)", trackers)
+        
+        
+        if currentFilter == NSLocalizedString("completed_trackers", comment: "") { predicates.append(completedPredicate) }
+        if currentFilter ==  NSLocalizedString("uncompleted_trackers", comment: "") { predicates.append(uncompletedPredicate) }
+        
+        fetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        
         
         try? fetchedResultsController.performFetch()
     }
@@ -224,6 +228,6 @@ extension TrackerStore: NSFetchedResultsControllerDelegate{
 
 extension TrackerCoreData {
     @objc var sectionHeader: String {
-        return self.isPinned ? "Закрепленные" : (self.category?.title ?? "Без категории")
+        return self.isPinned ? NSLocalizedString("pinned", comment: "") : (self.category?.title ?? NSLocalizedString("without_category", comment: ""))
     }
 }

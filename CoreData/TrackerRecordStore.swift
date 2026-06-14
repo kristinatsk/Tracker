@@ -11,10 +11,12 @@ protocol TrackerRecordDelegate: AnyObject {
 }
 
 protocol TrackerRecordStoreProtocol {
+    var totalCompletedTrackers: Int { get }
     func countCompletedDays(_ id: UUID) -> Int
     func isCompletedToday(_ date: Date, id: UUID) -> Bool
     func addRecord(_ id: UUID, date: Date) throws
     func deleteRecord(id: UUID, date: Date) throws
+    func completedTrackers(for date: Date) -> [UUID]
 }
 
 final class TrackerRecordStore: NSObject {
@@ -64,6 +66,10 @@ final class TrackerRecordStore: NSObject {
 }
 
 extension TrackerRecordStore: TrackerRecordStoreProtocol {
+    var totalCompletedTrackers: Int {
+        fetchedResultsController.fetchedObjects?.count ?? 0
+    }
+    
     func countCompletedDays(_ id: UUID) -> Int {
         let idRequest = TrackerRecordCoreData.fetchRequest()
         idRequest.predicate = NSPredicate(format: "%K == %@", "id", id as NSUUID)
@@ -94,6 +100,15 @@ extension TrackerRecordStore: TrackerRecordStoreProtocol {
         }
         try context.save()
     }
+    
+    func completedTrackers(for date: Date) -> [UUID] {
+        let request = TrackerRecordCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "%K == %@", "date", date as NSDate)
+        let records = try? context.fetch(request)
+        
+        return records?.compactMap { $0.id } ?? []
+    }
+    
 }
 
 // MARK: - NSFetchedResultsControllerDelegate

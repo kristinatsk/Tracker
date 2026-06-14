@@ -5,9 +5,9 @@ final class TrackerTypeSelectionViewController: UIViewController {
     
     private lazy var typeSelectionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Создание трекера"
+        label.text = NSLocalizedString("tracker_creation", comment: "")
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        label.textColor = .black
+        label.textColor = Colors.navigationTintColor
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -15,29 +15,29 @@ final class TrackerTypeSelectionViewController: UIViewController {
     
     private lazy var typeSelectionHabitButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Привычка", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitle(NSLocalizedString("habit", comment: ""), for: .normal)
+        button.setTitleColor(Colors.collectionViewBackgroundColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
-        button.backgroundColor = .black
+        button.backgroundColor = Colors.navigationTintColor
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private lazy var typeSelectionIrregularButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Нерегулярное событие", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitle(NSLocalizedString("irregular", comment: ""), for: .normal)
+        button.setTitleColor(Colors.collectionViewBackgroundColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
-        button.backgroundColor = .black
+        button.backgroundColor = Colors.navigationTintColor
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.collectionViewBackgroundColor
         
         view.addSubview(typeSelectionLabel)
         view.addSubview(typeSelectionHabitButton)

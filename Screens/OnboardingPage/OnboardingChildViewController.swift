@@ -13,16 +13,16 @@ final class OnboardingChildViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.textColor = .black
+        label.textColor = Colors.navigationTintColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var onboardingButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Вот это технологии!", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .black
+        button.setTitle(NSLocalizedString("thats_technology", comment: ""), for: .normal)
+        button.setTitleColor(Colors.collectionViewBackgroundColor, for: .normal)
+        button.backgroundColor = Colors.navigationTintColor
         button.layer.cornerRadius = 16
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -83,10 +83,10 @@ final class OnboardingChildViewController: UIViewController {
         
         let trackersViewController = TrackersViewController()
         let trackersNavigation = UINavigationController(rootViewController: trackersViewController)
-        trackersNavigation.tabBarItem = UITabBarItem(title: "Трекеры", image: UIImage(resource: .trackersIcon), selectedImage: nil)
+        trackersNavigation.tabBarItem = UITabBarItem(title: NSLocalizedString("trackers", comment: ""), image: UIImage(resource: .trackersIcon), selectedImage: nil)
         
         let statisticsViewController = StatisticsViewController()
-        statisticsViewController.tabBarItem = UITabBarItem(title: "Статистика", image: UIImage(resource: .statisticsIcon), selectedImage: nil)
+        statisticsViewController.tabBarItem = UITabBarItem(title: NSLocalizedString("statistics", comment: ""), image: UIImage(resource: .statisticsIcon), selectedImage: nil)
         
         tabBarController.viewControllers = [trackersNavigation, statisticsViewController]
         
