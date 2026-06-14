@@ -32,10 +32,10 @@ final class CategoryViewController: UIViewController {
     private lazy var categoryButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("add_category", comment: ""), for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(Colors.collectionViewBackgroundColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
-        button.backgroundColor = .black
+        button.backgroundColor = Colors.navigationTintColor
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -52,7 +52,7 @@ final class CategoryViewController: UIViewController {
         label.text = NSLocalizedString("group_habits", comment: "")
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.numberOfLines = 0
-        label.textColor = .black
+        label.textColor = Colors.navigationTintColor
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -60,7 +60,7 @@ final class CategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.collectionViewBackgroundColor
         title = NSLocalizedString("category", comment: "")
         
         categoryTableView.delegate = self

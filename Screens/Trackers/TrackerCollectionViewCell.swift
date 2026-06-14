@@ -27,7 +27,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = NSLocalizedString("water_plants", comment: "")
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .white
+        label.textColor = Colors.navigationTintColor
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -47,7 +47,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.layer.cornerRadius = 17
-        button.tintColor = .white
+        button.tintColor = Colors.collectionViewBackgroundColor
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

@@ -22,7 +22,7 @@ final class CategoryCreationViewController: UIViewController {
     private lazy var createCategoryButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("done", comment: ""), for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(Colors.collectionViewBackgroundColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
         button.backgroundColor = .lightGray
@@ -66,7 +66,7 @@ final class CategoryCreationViewController: UIViewController {
     @objc private func textChanged() {
         if let text = categoryTitleTextField.text , !text.isEmpty {
             createCategoryButton.isEnabled = true
-            createCategoryButton.backgroundColor = .black
+            createCategoryButton.backgroundColor = Colors.navigationTintColor
         } else {
             createCategoryButton.isEnabled = false
             createCategoryButton.backgroundColor = .lightGray

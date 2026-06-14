@@ -72,7 +72,7 @@ final class TrackerCreationViewController: UIViewController {
         button.setTitleColor(.red, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
-        button.backgroundColor = .white
+        button.backgroundColor = Colors.collectionViewBackgroundColor
         button.layer.borderColor = UIColor.red.cgColor
         button.layer.borderWidth = 1
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -82,7 +82,7 @@ final class TrackerCreationViewController: UIViewController {
     private lazy var createButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("create", comment: ""), for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(Colors.collectionViewBackgroundColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
         button.backgroundColor = .lightGray
@@ -154,7 +154,7 @@ final class TrackerCreationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.collectionViewBackgroundColor
         title = self.isHabit ? NSLocalizedString("new_habit", comment: "") : "new_irregular"
         
         creationTableView.dataSource = self
@@ -235,7 +235,7 @@ final class TrackerCreationViewController: UIViewController {
     @objc private func textChanged() {
         if let text = trackerNameTextField.text, !text.isEmpty {
             createButton.isEnabled = true
-            createButton.backgroundColor = .black
+            createButton.backgroundColor = Colors.navigationTintColor
         } else {
             createButton.isEnabled = false
             createButton.backgroundColor = .lightGray
@@ -248,7 +248,7 @@ final class TrackerCreationViewController: UIViewController {
             trackerNameTextField.text = trackerToEdit.name
             selectedSchedule = trackerToEdit.schedule.compactMap { WeekDay.allCases.firstIndex(of: $0) }
             textChanged()
-            
+            createButton.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
         }
         
         if let unwrappedEmoji = selectedEmoji,
@@ -265,7 +265,6 @@ final class TrackerCreationViewController: UIViewController {
             colorsCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
         }
         
-        createButton.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
     }
     
 }

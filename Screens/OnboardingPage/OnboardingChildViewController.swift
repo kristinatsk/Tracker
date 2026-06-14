@@ -13,7 +13,7 @@ final class OnboardingChildViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.textColor = .black
+        label.textColor = Colors.navigationTintColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -21,8 +21,8 @@ final class OnboardingChildViewController: UIViewController {
     private lazy var onboardingButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("thats_technology", comment: ""), for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .black
+        button.setTitleColor(Colors.collectionViewBackgroundColor, for: .normal)
+        button.backgroundColor = Colors.navigationTintColor
         button.layer.cornerRadius = 16
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.translatesAutoresizingMaskIntoConstraints = false
