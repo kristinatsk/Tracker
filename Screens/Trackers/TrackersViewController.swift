@@ -43,11 +43,11 @@ final class TrackersViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        AnalyticsService.report(event: "open", params: ["screen" : "Main"])
+        AnalyticsService.report(event: .open, params: [.screen: .main])
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        AnalyticsService.report(event: "close", params: ["screen" : "Main"])
+        AnalyticsService.report(event: .close, params: [.screen: .main])
     }
     override func viewDidLoad() {
         
@@ -117,7 +117,7 @@ final class TrackersViewController: UIViewController {
     }
     
     @objc private func addTrackerTapped() {
-        AnalyticsService.report(event: "click", params: ["screen": "Main", "item": "add_track"])
+        AnalyticsService.report(event: .click, params: [.screen: .main, .item: .addTrack])
         let typeSelectionVC = TrackerTypeSelectionViewController()
         typeSelectionVC.delegate = self
         present(typeSelectionVC, animated: true)
@@ -138,7 +138,7 @@ final class TrackersViewController: UIViewController {
     }
     
     @objc private func filterButtonTapped() {
-        AnalyticsService.report(event: "click", params: ["screen" : "Main", "item" : "filter"])
+        AnalyticsService.report(event: .click, params: [.screen: .main, .item: .filter])
         let filterSelectionVC = FiltersViewController()
         filterSelectionVC.delegate = self
         filterSelectionVC.selectedFilter = self.currentFilter
@@ -250,7 +250,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                 
             }
             let editAction = UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
-                AnalyticsService.report(event: "click", params: ["screen" : "Main","item" : "edit"])
+                AnalyticsService.report(event: .click, params: [.screen: .main, .item: .edit])
                 let newTracker = Tracker(
                     id: tracker.id ?? UUID(),
                     name: tracker.name ?? "",
@@ -271,7 +271,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
             }
             
             let deleteAction = UIAction(title: NSLocalizedString("delete", comment: ""), attributes: .destructive) { [weak self] _ in
-                AnalyticsService.report(event: "click", params: ["screen" : "Main", "item" : "delete"])
+                AnalyticsService.report(event: .click, params: [.screen: .main, .item: .delete])
                 let alertController = UIAlertController(
                     title: NSLocalizedString("sure_delete_tracker", comment: ""),
                     message: nil,
@@ -296,7 +296,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController: TrackerCollectionViewCellDelegate {
     func completeTracker(id: UUID) {
-        AnalyticsService.report(event: "click", params: ["screen" : "Main", "item" : "track"])
+        AnalyticsService.report(event: .click, params: [.screen: .main, .item: .track])
         guard currentDate <= Date() else { return }
         let startOfDay = Calendar.current.startOfDay(for: currentDate)
         if trackerRecordStore.isCompletedToday(startOfDay, id: id) {
